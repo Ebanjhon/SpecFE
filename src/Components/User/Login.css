@@ -1,0 +1,66 @@
+.background-login {
+    height: 100%;
+    background-color: aqua;
+    position: relative;
+    width: 100%;
+    background-image: url('/public/images/10141610.jpg');
+    background-size: cover;
+    background-position: center;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form {
+    width: 470px;
+    height: 80%;
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    /* Màu nền trong suốt */
+    border-radius: 10px;
+    /* Bo góc */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /* Đường viền trong suốt */
+    backdrop-filter: blur(10px);
+    /* Hiệu ứng mờ */
+    -webkit-backdrop-filter: blur(10px);
+    /* Hiệu ứng mờ cho Safari */
+    box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.lable {
+    font-size: 20px;
+}
+
+.input-login {
+    height: 50px;
+    font-size: 20px;
+    position: relative;
+}
+
+.btn-log-regis {
+    margin-top: 20px;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.label-input {
+    height: 120px;
+}
+
+.show-mess {
+    line-height: 20px;
+    color: #dc3545;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+.icon-login {
+    font-size: 25px;
+    margin-right: 10px;
+}

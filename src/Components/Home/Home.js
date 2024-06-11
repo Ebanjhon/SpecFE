@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import APIs, { endpoints } from "../../Configs/APIs";
 import { Button } from "react-bootstrap";
-
+import './Home.css'
 const Home = () => {
     const [subjects, setSubjects] = useState(null);
 
@@ -23,8 +23,8 @@ const Home = () => {
     };
 
     return (
-        <div>
-            <h2>Home</h2>
+        <div className="mtop container-home">
+            hello
         </div>
     );
 };

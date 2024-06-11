@@ -1,11 +1,7 @@
-# Getting Started with Create React App
+# đầu tiên hãy cài đặt các gói trong project 
+`yarn install`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
+# để chạy project
 ### `yarn start`
 
 Runs the app in the development mode.\

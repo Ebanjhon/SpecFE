@@ -4,8 +4,11 @@ const UserReducer = (user, action) => {
             return action.payload;
         }
         case "logout": {
+            sessionStorage.clear();
             return null;
         }
+        case "upstore":
+            return JSON.parse(sessionStorage.getItem('user'));
     }
 
     return user;
