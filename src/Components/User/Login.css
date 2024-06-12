@@ -11,6 +11,10 @@
     flex-direction: column;
 }
 
+.chieucao {
+    height: 95vh;
+}
+
 .login-form {
     width: 470px;
     height: 80%;

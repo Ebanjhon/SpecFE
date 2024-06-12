@@ -1,8 +1,10 @@
+import './Register.css';
+
 const Register = () => {
 
     return (
-        <div className="mtop">
-            ssd
+        <div className='background-register chieucao'>
+
         </div>
     )
 };

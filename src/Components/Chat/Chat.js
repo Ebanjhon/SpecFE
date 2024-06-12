@@ -11,8 +11,8 @@ const Chat = () => {
     const [isFocused, setIsFocused] = useState(false);
 
     return (
-        <div className="mtop d-flex justify-content-center align-items-center">
-            <div className="chatbox ">
+        <div className="mtop d-flex justify-content-center align-items-center chieucao">
+            <div className="chatbox">
                 <div className='list-chat d-flex justify-content-center align-items'>
                     <h2 className='white-text'>Chat <IoChatboxEllipses /></h2>
                     <div className='search-user'>

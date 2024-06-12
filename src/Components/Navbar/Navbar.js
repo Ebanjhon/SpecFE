@@ -24,13 +24,14 @@ const Navbar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     }
 
-    const offShow = () => {
-        console.log("ok");
+    const userDetail = () => {
+        showSideBar();
+        navigate("/user-infor");
     }
 
     return (
         <>
-            <nav className="navbar navbar fixed-top">
+            <nav className="navbar fixed-top">
                 <div className="nav-left">
                     {user && (
                         <>
@@ -47,21 +48,24 @@ const Navbar = () => {
                     </div>
                 </>) : (<>
                     <div className="nav-right" style={{ width: '260px' }}>
-                        <p style={{ fontSize: '20px', lineHeight: '44px' }} >Xin chào jhon123</p>
-                        <img src='https://i.pinimg.com/originals/d2/83/c2/d283c21ab422417da77f03474e15ba49.jpg' style={{ width: '44px', height: '44px' }} />
+                        <p style={{ fontSize: '20px', lineHeight: '44px' }} >Xin chào {user.username}</p>
+                        <img src={user.avatar} style={{ width: '44px', height: '44px' }} />
                         {/* <button type="button" class="btn btn-primary" style={{ width: "100px" }} onClick={logout}>Logout</button> */}
                     </div>
                 </>)}
 
             </nav>
             <div className={`side-bar ${isSidebarOpen ? 'open' : ''}`} style={{ position: 'fixed', zIndex: '99' }}>
-                <div className='infor-user'>
-                    <div className='avatar-sidebar'><img src='https://i.pinimg.com/originals/d2/83/c2/d283c21ab422417da77f03474e15ba49.jpg' /></div>
-                    <div className='infor-sidebar'>
-                        <p>Teacher 🧑‍🎓</p>
-                        <h3>Y Jhon Êban</h3>
+                {user && (
+                    <div className='infor-user' onClick={userDetail}>
+                        <div className='avatar-sidebar'><img src={user.avatar} /></div>
+                        <div className='infor-sidebar'>
+                            <p>{user.role} 🧑‍🎓</p>
+                            <h3>{user.firstname} {user.lastname}</h3>
+                        </div>
                     </div>
-                </div>
+                )}
+
                 service
                 <div className='sidebar-service'>
                     <Link to={'/'} onClick={showSideBar}><div className='btn'><HiHome /> Home</div></Link>

@@ -15,3 +15,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* background-color: var(--background-color); */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #EEF0F4;
+  --background-color: #f1c40f;
+  --spec-color: #F5F5F0;
+  --btn-color: #99C1D0;
+  --text-color: #2c3e50;
+}
+
+.height-min {
+  min-height: 95vh;
+}

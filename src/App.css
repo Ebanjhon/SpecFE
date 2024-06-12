@@ -7,7 +7,6 @@
 .mtop {
     padding-top: 60px;
     height: 100%;
-
     top: 0;
     left: 0;
     width: 100%;
@@ -28,6 +27,7 @@
     align-items: center;
     text-align: center;
     padding: 20px;
+    box-shadow: 2px 6px 4px rgba(20, 27, 29, 0.1);
 }
 
 .navbar div {
@@ -43,7 +43,7 @@
 }
 
 .nav-left {
-    width: 200px;
+    width: 260px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -83,7 +83,7 @@
     /* Màu nền trong suốt */
     border-radius: 10px;
     /* Bo góc */
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     /* Đường viền trong suốt */
     backdrop-filter: blur(15px);
     /* Hiệu ứng mờ */
@@ -115,6 +115,7 @@
     padding-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 .avatar-sidebar img {

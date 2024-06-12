@@ -1,4 +1,103 @@
 .container-home {
-    height: 100%;
+    height: auto;
+    width: 65%;
+    /* background-color: var(--primary-color); */
+}
+
+.search-spec {
+    margin-top: 10px;
+    height: 70px;
     width: 100%;
+    background-color: var(--secondary-color);
+    display: flex;
+    border: 15px solid white;
+    align-items: center;
+    border-radius: 35px;
+    box-shadow: -6px 9px 7px rgba(0, 0, 0, 0.1);
+}
+
+.search-spec h3,
+.search-spec svg {
+    font-size: 23px;
+    margin: 0px 15px;
+    border: none;
+    outline: none;
+}
+
+.search-spec h3 {
+    background-color: white;
+}
+
+.search-spec input {
+    outline: none;
+    border: none;
+    height: 100%;
+    width: 90%;
+    font-size: 25px;
+    background-color: var(--secondary-color);
+}
+
+.spec-container {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.item-spec div h6 {
+    margin-bottom: 0px;
+}
+
+.item-spec {
+    background-color: var(--spec-color);
+    width: 100%;
+    height: 130px;
+    /* margin-bottom: 5px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    /* border: 1px solid black; */
+    position: relative;
+    transition: background-color 0.3s ease;
+    /* Thêm hiệu ứng chuyển đổi cho màu nền */
+}
+
+.item-spec:hover {
+    background-color: #d6e9f1;
+}
+
+.item-spec::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    /* Độ dày của viền có thể tùy chỉnh */
+}
+
+.item-spec img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.item-spec button {
+    height: 50px;
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--btn-color);
+    border: none;
+    text-align: center;
+    color: rgb(54, 54, 54);
+    margin: 4px 2px;
+    transition: background-color 2s ease-in-out;
+}
+
+.item-spec button:hover {
+    background: linear-gradient(90deg, #FFCB52, #FF7B02);
 }

@@ -1,0 +1,16 @@
+.background-register {
+    height: 100%;
+    background-color: aqua;
+    position: relative;
+    width: 100%;
+    background-image: url('/public/images/10157290.jpg');
+    background-size: cover;
+    background-position: center;
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chieucao {
+    height: 95vh;
+}

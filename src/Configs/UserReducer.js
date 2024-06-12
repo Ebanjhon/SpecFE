@@ -7,8 +7,6 @@ const UserReducer = (user, action) => {
             sessionStorage.clear();
             return null;
         }
-        case "upstore":
-            return JSON.parse(sessionStorage.getItem('user'));
     }
 
     return user;
