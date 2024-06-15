@@ -12,6 +12,8 @@ import Register from './Components/User/Register.js';
 import Chat from './Components/Chat/Chat.js';
 import UserDetail from './Components/User/UserDetail.js';
 import SpecDetail from './Components/SpecificationDetail/SpecDetail.js';
+import ViewFile from './Components/ViewFile.js';
+import CreateSpec from './Components/SpecificationDetail/CreateSpec.js';
 
 function App() {
     // hàm lấy user trong sessionStore
@@ -32,6 +34,8 @@ function App() {
                             <Route path='/' element={<Home />} />
                             <Route path='/logout' element={<Sighout />} />
                             <Route path='/chat' element={<Chat />} />
+                            <Route path='/spec-editer' element={<CreateSpec />} />
+                            <Route path='/view-file' element={<ViewFile />} />
                             <Route path='/display-spec' element={<SpecDetail />} />
                             <Route path='/user-infor' element={<UserDetail />} />
                             <Route path="/login" element={<Navigate to="/" />} />
