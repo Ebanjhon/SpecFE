@@ -48,6 +48,7 @@ function App() {
                             <Route path="/logout" element={<Navigate to="/login" />} />
                         </>
                     )}
+
                 </Routes>
                 <Footer />
             </UserContext.Provider>

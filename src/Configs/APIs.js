@@ -12,6 +12,7 @@ export const endpoints = {
     'create-comment-child': (idParent) => `/api/comments/parent/${idParent}`,
     'delete-comment': (idComment) => `/api/comment/${idComment}`,
     'get-author': (idAuthor) => `/api/author/${idAuthor}`,
+    'room-chat': (iduser) => `/api/chatrooms/users?userId=${iduser}`,
 }
 
 console.info(cookie.load('token'))

@@ -49,7 +49,10 @@ const CreateSpec = () => {
                     }}
                 />
             </>) : (<>
+                <div className="form-infor input-group mb-3 import-file">
+                    <input type="file" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
 
+                </div>
             </>)}
             <form className='form-infor'>
                 <div class="mb-3">
@@ -69,7 +72,7 @@ const CreateSpec = () => {
                         <button className="btn btn-primary">Thêm cột điểm</button>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-outline-danger">Đăng đề cương</button>
             </form>
 
             {/* gọi hàm lấy dữ liệu đang nhập */}

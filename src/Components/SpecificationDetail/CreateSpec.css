@@ -35,3 +35,8 @@
 .form-control {
     height: 46px;
 }
+
+.import-file input {
+    height: 100%;
+    width: 100%;
+}
