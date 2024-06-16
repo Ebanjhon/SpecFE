@@ -8,7 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url("/public/images/123.png");
+  /* background-image: url("/public/images/123.png"); */
 }
 
 code {

@@ -65,6 +65,7 @@
     /* Thêm hiệu ứng chuyển đổi cho màu nền */
 }
 
+
 .item-spec:hover {
     background-color: #d6e9f1;
 }
@@ -100,4 +101,25 @@
 
 .item-spec button:hover {
     background: linear-gradient(90deg, #FFCB52, #FF7B02);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    width: fit-content;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 30px;
+    padding: 0 5px 8px 0;
+    background: repeating-linear-gradient(90deg, currentColor 0 8%, #0000 0 10%) 200% 100%/200% 3px no-repeat;
+    animation: l3 2s steps(6) infinite;
+}
+
+.loader:before {
+    content: "Loading..."
+}
+
+@keyframes l3 {
+    to {
+        background-position: 80% 100%
+    }
 }
