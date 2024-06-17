@@ -1,7 +1,7 @@
 import axios from "axios";
 import cookie from "react-cookies";
 
-const BASE_URL = 'http://localhost:8000/QuanLyDeCuong/';
+export const BASE_URL = 'http://localhost:8000/QuanLyDeCuong/';
 
 export const endpoints = {
     'subjects': '/api/subjects',
@@ -16,7 +16,7 @@ export const endpoints = {
     'room-chat': (iduser) => `/api/chatrooms/users?userId=${iduser}`,
 }
 
-console.info(cookie.load('token'))
+// console.info(cookie.load('token'))
 
 export const authApi = () => {
     return axios.create({

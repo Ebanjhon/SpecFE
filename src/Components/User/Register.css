@@ -1,12 +1,11 @@
 .background-regist {
     height: 100%;
-    background-color: aqua;
     position: relative;
     width: 100%;
-    background-image: url('/public/images/10141610.jpg');
+    background-image: url('/public/images/10149325.jpg');
     background-size: cover;
     background-position: center;
-    padding-top: 60px;
+    padding-top: 70px;
     display: flex;
     flex-direction: column;
 }
@@ -16,11 +15,11 @@
 }
 
 .regist-form {
-    width: 470px;
-    height: 80%;
+    width: 550px;
+    /* height: 80%; */
     padding: 15px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 106, 0, 0.5);
     /* Màu nền trong suốt */
     border-radius: 10px;
     /* Bo góc */
@@ -32,7 +31,7 @@
     /* Hiệu ứng mờ cho Safari */
     box-shadow: 0px 10px 16px rgba(0, 0, 0, 0.1);
     color: #fff;
-    margin: 15px;
+    margin-bottom: 15px;
 }
 
 .lable {
@@ -46,16 +45,16 @@
 }
 
 .btn-log-regis {
-    margin-top: 20px;
-    height: 50px;
+    /* margin-top: 20px; */
+    /* height: 50px; */
     width: 100%;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     font-size: 25px;
     font-weight: 600;
 }
 
 .label-input {
-    height: 120px;
+    height: 90px;
 }
 
 .show-mess {
@@ -70,4 +69,56 @@
     margin-right: 8px;
     margin-bottom: 4px;
 
+}
+
+.firt-last-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.show-img {
+    color: rgb(63, 63, 63);
+    width: 130px;
+    height: 130px;
+    font-size: 24px;
+    background-color: #dcdcdc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.show-img img {
+    width: 130px;
+    height: 130px;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader-register {
+    width: 60px;
+    aspect-ratio: 2;
+    --_g: no-repeat radial-gradient(circle closest-side, #000 90%, #0000);
+    background:
+        var(--_g) 0% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 50%;
+    animation: l3 1s infinite linear;
+}
+
+@keyframes l3 {
+    20% {
+        background-position: 0% 0%, 50% 50%, 100% 50%
+    }
+
+    40% {
+        background-position: 0% 100%, 50% 0%, 100% 50%
+    }
+
+    60% {
+        background-position: 0% 50%, 50% 100%, 100% 0%
+    }
+
+    80% {
+        background-position: 0% 50%, 50% 50%, 100% 100%
+    }
 }

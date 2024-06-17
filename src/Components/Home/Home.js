@@ -61,7 +61,7 @@ const Home = () => {
                 </div>
 
                 {/* hiển thị các danh sách đề cương */}
-                {loading === true ? (<div class="loader"></div>) : (
+                {loading === true ? (<div className="loader-spec"></div>) : (
                     <>
                         {specList === null ? (<>
                             <div className="d-flex justify-content-center">

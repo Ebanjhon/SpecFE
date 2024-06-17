@@ -69,7 +69,7 @@ const Login = () => {
     return (
         <div className='background-login d-flex justify-content-center align-items-center chieucao'>
             {showValid && (
-                <div class="alert alert-danger" style={{ minWidth: '470px' }} role="alert">
+                <div className="alert alert-danger" style={{ minWidth: '470px' }} role="alert">
                     Mật khẩu và tên đăng nhập của bạn không chính xác!
                 </div>
             )}
@@ -112,11 +112,11 @@ const Login = () => {
 
                     {!loading ? (
                         <Button variant="primary" type="submit" className='btn-log-regis'>
-                            Sign in
+                            Đăng nhập
                         </Button>
                     ) : (
-                        <div className='d-flex justify-content-center align-items-center'>
-                            <div className="spinner-border text-primary"></div>
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="loader-login"></div>
                         </div>
                     )}
 
