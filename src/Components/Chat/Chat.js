@@ -9,7 +9,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { addDoc, collection, onSnapshot, serverTimestamp, where, query } from "firebase/firestore";
 import { database } from '../../Configs/Firebase';
 import { UserContext } from '../../Configs/Contexts';
-import APIs, { endpoints } from '../../Configs/APIs';
+import APIs, { authApi, endpoints } from '../../Configs/APIs';
 
 const Chat = () => {
     const [isFocused, setIsFocused] = useState(false);
@@ -23,7 +23,7 @@ const Chat = () => {
 
     const fetchRoomChat = async () => {
         try {
-            let response = await APIs.get(endpoints['room-chat'](userCurrent.idUser));
+            let response = await authApi().get(endpoints['room-chat'](userCurrent.idUser));
             setListRoom(response.data);
         } catch (error) {
 

@@ -4,17 +4,19 @@ import { FaArrowTurnDown } from "react-icons/fa6";
 import { IoPaperPlane } from "react-icons/io5";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { MdOutlineInsertEmoticon } from "react-icons/md";
-import { Button } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import ViewFile from '../ViewFile';
 import { Editor } from '@tinymce/tinymce-react';
 import { useLocation } from 'react-router-dom';
-import APIs, { endpoints } from '../../Configs/APIs';
+import APIs, { authApi, endpoints } from '../../Configs/APIs';
 import { UserContext } from '../../Configs/Contexts';
+import { FaFileDownload } from "react-icons/fa";
+import { saveAs } from 'save-as';
 const SpecDetail = () => {
     // dùng để lấy dữ liệu truyền qua state
     const location = useLocation();
     const { spec } = location.state || {};
-    const [data, setData] = useState("");
+    // const [data, setData] = useState("");
     const [loading, setLoading] = useState(false);
     const [author, setAuthor] = useState(false);
     const [content, setContent] = useState('');
@@ -33,7 +35,7 @@ const SpecDetail = () => {
         if (comment === null)
             setLoading(true);
         try {
-            let response = await APIs.get(endpoints['comment'](spec.idSpec));
+            let response = await authApi().get(endpoints['comment'](spec.idSpec));
             setComment(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -50,7 +52,7 @@ const SpecDetail = () => {
 
     const fetchAuthor = async () => {
         try {
-            let response = await APIs.get(endpoints['get-author'](spec.author.idUser));
+            let response = await authApi().get(endpoints['get-author'](spec.author.idUser));
             setAuthor(response.data);
         } catch (error) {
             if (error.response && error.response.status === 404) {
@@ -85,7 +87,7 @@ const SpecDetail = () => {
                     content: content,
                     userId: userCurrent.idUser,
                 };
-                await APIs.post(endpoints['create-comment-parent'](spec.idSpec), commentData);
+                await authApi().post(endpoints['create-comment-parent'](spec.idSpec), commentData);
             } catch (error) {
                 // handle error
             } finally {
@@ -102,7 +104,7 @@ const SpecDetail = () => {
                     content: childContent[idParent],
                     userId: userCurrent.idUser,
                 };
-                await APIs.post(endpoints['create-comment-child'](idParent), commentData);
+                await authApi().post(endpoints['create-comment-child'](idParent), commentData);
             } catch (error) {
                 // handle error
             } finally {
@@ -116,7 +118,7 @@ const SpecDetail = () => {
     const delete_comment = async (idCmt) => {
         // console.log(idCmt);
         try {
-            const response = await APIs.delete(endpoints['delete-comment'](idCmt));
+            const response = await authApi().delete(endpoints['delete-comment'](idCmt));
         } catch (error) {
 
         } finally {
@@ -132,6 +134,13 @@ const SpecDetail = () => {
     const handleChildCommentSubmit = async (parentId) => {
         await crt_comment_child(parentId);
         setChildContent({ ...childContent, [parentId]: '' });
+    };
+
+    // tải file xuong
+    const downloadFile = async () => {
+        const response = await fetch(spec.fileSpec);
+        const blob = await response.blob();
+        saveAs(blob, 'decuong.docx');
     };
 
     return (
@@ -153,17 +162,20 @@ const SpecDetail = () => {
                         <h6><h5>Quê quán: </h5>{author.address}</h6>
                         <h6><h5>SĐT: </h5>{author.phone}</h6>
                         <h6><h5>Email: </h5>{author.email}</h6>
-                        <h6><h5>Ngày sinh: </h5>{formatDate(author.dateOfBirth)}</h6>
+                        <h6><h5>Ngày sinh: </h5>{formatDate(author.dateOfBirth)} </h6>
                     </>)}
                 </div>
             </div>
 
             <div className="container-spec-comments-view">
-                <div className='spec-view'>
 
+                <div className='spec-view'>
+                    <div className='icon-download' onClick={downloadFile}>
+                        <FaFileDownload />
+                    </div>
                     {spec.typeofspecifi.idType === 3 ? (<>
                         <Editor
-                            value={data}
+                            value={spec.content}
                             init={{
                                 height: '700',
                                 width: '100%',
@@ -178,6 +190,26 @@ const SpecDetail = () => {
                     </>) : (<>
                         <ViewFile link={spec.fileSpec} />
                     </>)}
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Cuối kỳ</th>
+                                <th>Giữa kỳ</th>
+                                <th>Phát biểu</th>
+                                <th>Chuyên cần</th>
+                                <th>Bài thực hành</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>50%</td>
+                                <td>50%</td>
+                                <td>50%</td>
+                                <td>50%</td>
+                                <td>50%</td>
+                            </tr>
+                        </tbody>
+                    </Table>
                 </div>
                 <h5>Vùng bình luận</h5>
 

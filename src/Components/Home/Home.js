@@ -1,28 +1,50 @@
-import { useContext, useEffect, useState } from "react";
-import APIs, { endpoints, BASE_URL } from "../../Configs/APIs";
+import { useContext, useEffect, useReducer, useState } from "react";
+import APIs, { endpoints, BASE_URL, authApi } from "../../Configs/APIs";
 import { Button } from "react-bootstrap";
 import './Home.css'
 import { FaSearch } from "react-icons/fa";
 import { UserContext } from "../../Configs/Contexts";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+
 const Home = () => {
+    // reducer page
+    const PageReducer = (page, action) => {
+        switch (action.type) {
+            case "next": {
+                return page + 1;
+            }
+            case "num": {
+                return (action.payload + 1);
+            }
+            case "nom": {
+                return (action.payload - 1);
+            }
+            case "back": {
+                return page - 1;
+            }
+        }
+        return page;
+    }
     const [specList, setSpecList] = useState(null);
     const [loading, setLoading] = useState(false);
     const [nameSpec, setNameSpec] = useState('');
     const [credit, setCredit] = useState('');
     const [nameTeach, setNameTeach] = useState('');
     const [idSub, setIdSub] = useState('');
-    const [page, setPage] = useState(1);
+    const [page, dispatch] = useReducer(PageReducer, 1);
     const navigate = useNavigate();
+    const [pageSize, setPageSize] = useState(0);
 
     // gọi API lấy dữ liệu
     const fetchSpec = async () => {
         setLoading(true);
         let url = `${BASE_URL}api/searchSpecifications/?nameSpec=${nameSpec}&subjectId=${idSub}&teacherName=${nameTeach}&credit=${credit}&page=${page}`;
         try {
-            axios.get(url).then(response => {
+            authApi().get(url).then(response => {
                 setSpecList(response.data);
+                setPageSize(Math.ceil(response.data.totalCount / 5));
             }).catch(error => { });
         } catch (error) {
 
@@ -35,14 +57,14 @@ const Home = () => {
 
     useEffect(() => {
         fetchSpec();
-    }, []);
+    }, [page]);
 
     const toSpecDetail = (s) => {
         navigate('/display-spec', { state: { spec: s } });
     };
 
     const showLog = () => {
-        console.log(specList[0].author);
+        console.log(page);
     };
 
     // hàm định dạng ngày
@@ -69,7 +91,7 @@ const Home = () => {
                             </div>
                         </>) : (<>
                             <div className="spec-container">
-                                {specList.map(s => (
+                                {specList.results.map(s => (
                                     <div className="item-spec">
                                         <img src={s.author.avatar} />
                                         <div style={{ width: '20%' }}>
@@ -100,23 +122,41 @@ const Home = () => {
                             {/* page size */}
                             <div className="d-flex justify-content-center">
                                 <nav aria-label="Page navigation example">
-                                    <ul className="pagination">
-                                        <li className="page-item">
-                                            <a className="page-link" href="#" aria-label="Previous">
-                                                <span aria-hidden="true">Trang trước</span>
-                                            </a>
-                                        </li>
-                                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                        <li className="page-item">
-                                            <a className="page-link" href="#" aria-label="Next">
-                                                <span aria-hidden="true">Trang sau</span>
-                                            </a>
-                                        </li>
+                                    <ul className="pagination" style={{ cursor: 'pointer' }}>
+                                        {page !== 1 ? <>
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true" onClick={() => dispatch({ type: 'back' })}>Trang trước</span>
+                                                </a>
+                                            </li>
+                                            <li className="page-item"><a className="page-link" onClick={() => dispatch({ type: 'nom', payload: page })}>{page - 1}</a></li>
+                                        </> : <>
+                                            <li className="page-item">
+                                                <a className="page-link" aria-label="Previous" style={{ backgroundColor: 'gray', color: 'white' }}>
+                                                    <span aria-hidden="true">Trang  trước</span>
+                                                </a>
+                                            </li>
+                                        </>}
+                                        <li className="page-item"><a className="page-link" >{page}</a></li>
+                                        {page !== pageSize ? <>
+                                            <li className="page-item"><a className="page-link" onClick={() => dispatch({ type: 'num', payload: page })}>{page + 1}</a></li>
+                                            <li className="page-item">
+                                                <a className="page-link" href="#" aria-label="Next">
+                                                    <span aria-hidden="true" onClick={() => dispatch({ type: 'next' })}>Trang sau</span>
+                                                </a>
+                                            </li>
+                                        </> : <>
+                                            <li className="page-item" >
+                                                <a className="page-link" aria-label="Next" style={{ backgroundColor: 'gray', color: 'white' }}>
+                                                    <span aria-hidden="true" >Trang sau</span>
+                                                </a>
+                                            </li>
+                                        </>}
+
                                     </ul>
                                 </nav>
                             </div>
+
                         </>)}
                     </>
                 )}

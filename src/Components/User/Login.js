@@ -56,6 +56,7 @@ const Login = () => {
                 } else {
                     setShowValid(true);
                 }
+
             } finally {
                 setLoading(false)
             }
@@ -75,10 +76,10 @@ const Login = () => {
             )}
             <div className='login-form'>
 
-                <h1 className='d-flex justify-content-center align-items-center' style={{ fontSize: '50px', marginBottom: '20px' }}>Đăng Nhập</h1>
+                <h1 className='d-flex justify-content-center align-items-center' style={{ fontSize: '50px', marginBottom: '20px', fontFamily: "Bungee, sans-serif" }}>Đăng Nhập</h1>
                 {/* <p>Hệ thống quản lý và biên soạn đề cương.</p> */}
                 <Form onSubmit={login}>
-                    <Form.Group controlId="formUsername" className='label-input'>
+                    <Form.Group controlId="formUsername" className='label-input' style={{ marginBottom: '20px' }}>
                         <FaUser className='icon-login' />
                         <Form.Label className='lable'>Username</Form.Label>
                         <Form.Control
@@ -88,10 +89,12 @@ const Login = () => {
                             placeholder="Nhập tên người dùng"
                             value={user.username}
                             onChange={handleChange}
+                            style={{ fontSize: '20px', fontWeight: '500' }}
                         />
                         <p className='show-mess'> {showValid && user.username === '' ? 'Vui lòng nhập tên đăng nhập.' : ''}</p>
                     </Form.Group>
-                    <Form.Group controlId="formPassword" className='label-input' >
+
+                    <Form.Group controlId="formPassword" className='label-input' style={{ marginBottom: '5px' }}>
                         <span className="password-toggle eye" onClick={togglePasswordVisibility}>
                             {showPassword ? <FaUnlock className='icon-login' /> : <FaLock className='icon-login' />}
                         </span>
@@ -104,7 +107,7 @@ const Login = () => {
                             value={user.password}
                             onChange={handleChange}
                             autoFocus={false}
-                            style={{ border: 'none' }}
+                            style={{ border: 'none', fontSize: '20px', fontWeight: '500' }}
                         />
 
                         <p className='show-mess'> {showValid && user.password === '' ? 'Vui lòng nhập mật khẩu.' : ''}</p>

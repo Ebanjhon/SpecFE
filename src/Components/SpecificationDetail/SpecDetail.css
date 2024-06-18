@@ -9,6 +9,15 @@
     margin-bottom: 12px;
 }
 
+.icon-download {
+    position: absolute;
+    top: 75px;
+    z-index: 99;
+    left: 71%;
+    cursor: pointer;
+    font-size: 30px;
+}
+
 
 .text-infor p,
 .text-infor h5,

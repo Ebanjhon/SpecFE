@@ -2,6 +2,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: auto;
+}
+
+.form-cot-diem {
+    display: flex;
+    align-items: end;
+}
+
+.form-cot-diem button {
+    height: 46px;
+    margin: 13px;
 }
 
 .top-view-create {
@@ -39,4 +50,71 @@
 .import-file input {
     height: 100%;
     width: 100%;
+}
+
+.cotdiems {
+    /* background-color: aqua; */
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.cotdiems .cotdiem:first-child {
+    margin-left: 0px;
+}
+
+.cotdiem {
+    background-color: rgb(255, 119, 0);
+    width: 20%;
+    height: 140px;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    border-radius: 5px;
+    border: 1px solid rgb(255, 0, 0);
+    padding-bottom: 5px;
+}
+
+.btn-spec-create-cancel p {
+    margin: 15px 20px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.btn-spec-create-cancel button {
+    width: 200px;
+    height: 60px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.cotdiem button {
+    width: 80%;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.label-input-grad {
+    margin: 5px;
+    background-color: rgb(255, 255, 255);
+}
+
+/* HTML: <div class="loader"></div> */
+.loader-create-spec {
+    width: 50px;
+    margin-right: 50px;
+    aspect-ratio: 1;
+    --_c: no-repeat linear-gradient(orange 0 0) 50%;
+    background:
+        var(--_c)/100% 50%,
+        var(--_c)/50% 100%;
+    border-radius: 50%;
+    animation: l29 2s infinite linear;
+}
+
+@keyframes l29 {
+    100% {
+        transform: rotate(1turn)
+    }
 }

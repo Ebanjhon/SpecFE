@@ -42,7 +42,7 @@ const Register = () => {
 
     const [file, setFile] = useState(null);
     const [previewAVT, setPreviewAVT] = useState(null);
-
+    // hay lấy hinh ảnh
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
@@ -67,7 +67,7 @@ const Register = () => {
                 }
 
                 formData.append("file", file); // Thêm tập tin vào FormData
-                console.log(formData.get('file'));
+                // console.log(formData.get('file'));
                 // // Kiểm tra dữ liệu gửi đi
                 let response = await APIs.post(endpoints["register"], formData, {
                     headers: {
@@ -106,7 +106,7 @@ const Register = () => {
             <div className="regist-form">
                 <h1
                     className="d-flex justify-content-center align-items-center"
-                    style={{ fontSize: "50px", marginBottom: "20px" }}
+                    style={{ fontSize: "50px", marginBottom: "20px", fontFamily: "Bungee, sans-serif" }}
                 >
                     Đăng Ký
                 </h1>
@@ -199,7 +199,7 @@ const Register = () => {
                         </Form.Group>
 
                         <div className="show-img">
-                            {previewAVT !== null ?
+                            {file !== null ?
                                 <img src={previewAVT} alt="Preview" />
                                 : <>
                                     avatar
@@ -213,6 +213,7 @@ const Register = () => {
                             className="input-regist"
                             type="file"
                             name="avatar"
+                            accept="image/*"
                             onChange={handleFileChange} // Thêm hàm xử lý tập tin
                         />
                     </Form.Group>
@@ -284,7 +285,7 @@ const Register = () => {
                     Bạn đã có tài khoản?{" "}
                 </Link>
             </div>
-        </div>
+        </div >
     );
 };
 

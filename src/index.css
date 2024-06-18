@@ -1,4 +1,5 @@
 /* thực hiện viết các css chung nếu có  và các font chữ, màu sắc*/
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 body {
   margin: 0;

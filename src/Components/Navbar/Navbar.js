@@ -47,7 +47,7 @@ const Navbar = () => {
                 {!user ? (<>
                     <div className="nav-right">
                         <Link to={"login"}><button type="button" class="btn btn-outline-primary" style={{ width: "120px" }}>Đăng nhập</button></Link>
-                        <Link to={'/register'}><button type="button" class="btn btn-primary" style={{ width: "100px" }}>Đăng ký</button></Link>
+                        <Link to={'/register'}><button type="button" class="btn btn-primary" style={{ width: "100px", marginRight: '25px' }}>Đăng ký</button></Link>
                     </div>
                 </>) : (<>
                     <div className="nav-right" style={{ width: '260px' }}>
@@ -88,7 +88,7 @@ const Navbar = () => {
                     {user.role !== 'ROLE_STUDENT' && (<>
                         add specification
                         <Link to={'/spec-editer'}>
-                            <div className='add-spec d-flex justify-content-center align-items-center btn' onClick={showSideBar}>
+                            <div className='add-spec d-flex justify-content-center align-items-center btn' onClick={showSideBar} style={{ backgroundColor: '#d3d3d3' }}>
                                 <h5>Soạn Đề Cương</h5>
                                 <FaPlus className='plus-icon' />
                             </div>
