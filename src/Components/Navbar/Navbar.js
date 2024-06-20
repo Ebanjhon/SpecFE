@@ -12,6 +12,9 @@ import { BiSolidMessageDetail } from "react-icons/bi";
 import { SlCalender } from "react-icons/sl";
 import { FaPlus } from "react-icons/fa";
 import { BsCoin } from "react-icons/bs";
+import './Pay.css';
+import { authApi, endpoints } from '../../Configs/APIs';
+import { Button } from 'react-bootstrap';
 const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, dispatch] = useContext(UserContext);
@@ -29,6 +32,22 @@ const Navbar = () => {
     const userDetail = () => {
         showSideBar();
         navigate("/user-infor");
+    }
+    // gọi hàm thanh toán
+    const payCoin = async () => {
+        let formData = new FormData();
+
+        formData.append("username", user.username);
+        formData.append("amount", 10000);
+        try {
+            let response = await authApi().post(endpoints['vn-pay'], formData);
+            let redirectUrl = response.data;
+
+            // Mở tab mới và chuyển đến đường dẫn từ response.data
+            window.open(redirectUrl, "_blank");
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -55,6 +74,13 @@ const Navbar = () => {
                         <h4 style={{ lineHeight: '44px', color: 'brown' }}>0</h4>
                         <p style={{ fontSize: '20px', lineHeight: '44px' }} >Xin chào {user.username}</p>
                         <img src={user.avatar} style={{ width: '44px', height: '44px' }} />
+
+                        <div className='box-buy-coin' style={{ height: '300px' }}>
+                            <h5>Thanh Toán VNPay</h5>
+                            <div className='item-pay' style={{ height: '250px' }} >
+                                <Button onClick={payCoin}>Thanh Toán</Button>
+                            </div>
+                        </div>
                     </div>
                 </>)}
 

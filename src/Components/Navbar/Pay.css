@@ -1,0 +1,16 @@
+.box-buy-coin {
+    position: absolute;
+    top: 65px;
+    right: 90px;
+    background: linear-gradient(119deg, #64E8DE, #8A64E8);
+    height: 200px;
+    width: 280px;
+    padding: 10px;
+}
+
+.item-pay {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    margin: 5px 0px;
+    border-radius: 10px;
+}

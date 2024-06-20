@@ -18,7 +18,7 @@ const Chat = () => {
     const [messages, setMessages] = useState([]);// dùng để chứa tin nhắn trong phòng
     const [text, setText] = useState(""); // chứa nội dung nhập để chat
     const [roomNumber, setRoomNumber] = useState(null);// số phòng hiện hành
-    const [listRoom, setListRoom] = useState(null);// các phòng chat
+    const [listRoom, setListRoom] = useState([]);// các phòng chat
     const [friend, setFriend] = useState(null);// các phòng chat
     const [userCurrent, dispatch] = useContext(UserContext);// user hiện tại
     const containerRef = useRef(null);
@@ -134,15 +134,15 @@ const Chat = () => {
     // hàm tạo room chat or vào chat
     const chating = async (user) => {
         let result = listRoom.find(i => i.users[0].idUser === parseInt(user.idUser)) || null;
-        if (userCurrent.idUser === user.idUser) {
+        if (userCurrent.idUser === user.idUser) {// chạt với chính minh
 
         }
-        else if (result != null) {
+        else if (result != null) {// đã có user chat chung
             changeRoom(result.users[0], result.idRoomChat);
             if (inputRef.current) {
                 inputRef.current.focus();
             }
-        } else {
+        } else {// tạo phòng chat
             let formData = new FormData();
             formData.append("userId1", userCurrent.idUser);
             formData.append("userId2", user.idUser);
@@ -215,7 +215,6 @@ const Chat = () => {
                 {/* cửa sổ chat */}
                 <div className='content-chat'>
                     <div className='to-user-chat-infor'>
-                        {/* <div className='avatar-chat'><img src='https://i.pinimg.com/originals/d2/83/c2/d283c21ab422417da77f03474e15ba49.jpg' /></div> */}
                         {friend !== null && (<>
                             <h4>{friend.firstname}</h4>
                             <p style={{ fontSize: '14px', marginLeft: '5px' }}>({friend.role})</p>
@@ -227,7 +226,7 @@ const Chat = () => {
                         <div className='text-chats' ref={containerRef}>
                             {messages.map((message) => (
                                 <div className={userCurrent.idUser !== message.idUser ? 'text-friend' : 'text-user-curent'} >
-                                    {/* <div className='avatar-chat'><img src={userCurrent.idUser !== message.idUser ? (friend.avatar) : (userCurrent.avatar)} /></div> */}
+                                    <div className='avatar-chat'><img src={userCurrent.idUser !== message.idUser ? (friend.avatar) : (userCurrent.avatar)} /></div>
                                     <div className='text'>
                                         {message.mess}
                                         <p style={{ fontSize: '14px', color: 'gray' }}>{formatTime(message.timestamp)}</p>

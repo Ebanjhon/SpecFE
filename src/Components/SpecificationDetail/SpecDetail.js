@@ -22,6 +22,7 @@ const SpecDetail = () => {
     const [content, setContent] = useState('');
     const [userCurrent, dispatch] = useContext(UserContext);
     const [comment, setComment] = useState(null);
+    const [gradSpec, setGradSpec] = useState(null);
     const [childContent, setChildContent] = useState({});
 
     // hàm định dạng ngày
@@ -50,6 +51,15 @@ const SpecDetail = () => {
         }
     };
 
+    const fetchCotDiems = async () => {
+        try {
+            let response = await authApi().get(endpoints['gradSpec'](spec.idSpec));
+            setGradSpec(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const fetchAuthor = async () => {
         try {
             let response = await authApi().get(endpoints['get-author'](spec.author.idUser));
@@ -74,6 +84,7 @@ const SpecDetail = () => {
     useEffect(() => {
         fetchComments();
         fetchAuthor();
+        fetchCotDiems();
     }, [])
 
     const test = () => {
@@ -194,24 +205,22 @@ const SpecDetail = () => {
                         <ViewFile link={spec.fileSpec} type={spec.typeofspecifi.idType} />
                     </>)}
                     <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>Cuối kỳ</th>
-                                <th>Giữa kỳ</th>
-                                <th>Phát biểu</th>
-                                <th>Chuyên cần</th>
-                                <th>Bài thực hành</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>50%</td>
-                                <td>50%</td>
-                                <td>50%</td>
-                                <td>50%</td>
-                                <td>50%</td>
-                            </tr>
-                        </tbody>
+                        {gradSpec !== null && <>
+                            <thead>
+                                <tr>
+                                    {gradSpec.map(s => (
+                                        <th>{s.grandeID.nameColumn}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {gradSpec.map(s => (
+                                        <td>{s.weight * 100} %</td>
+                                    ))}
+                                </tr>
+                            </tbody>
+                        </>}
                     </Table>
                 </div>
                 <h5>Vùng bình luận</h5>
