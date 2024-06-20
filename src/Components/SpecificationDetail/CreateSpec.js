@@ -23,12 +23,13 @@ const CreateSpec = () => {
     const [type, setType] = useState(3);
     const [file, setFile] = useState(null);
     const [subject, setSupject] = useState();
+    // lấy môn học
     const fetchSubject = async () => {
         try {
             let response = await authApi().get(endpoints['subjects']);
             setSupject(response.data);
         } catch (error) {
-
+            console.error(error);
         }
     };
     const [gradingSheet, setGradingSheet] = useState();// lấy các tên cột
@@ -130,8 +131,8 @@ const CreateSpec = () => {
     // hàm tạo đề cương 
     const createSpec = async (e) => {
         e.preventDefault();
-        // log();
-        console.log(editorRef.current.getContent());
+        let total = gradSpec.reduce((total, item) => total + item.percent, 0);
+
         const hasIdGradZero = gradSpec.some(spec => spec.idGrad === 0);
         if (
             specification.nameSpec === "" || specification.nameSpec === null ||
@@ -139,6 +140,8 @@ const CreateSpec = () => {
             (type !== 3 && (file === undefined || file === null)) || hasIdGradZero
         ) {
             alert("vui lòng điền đầy đủ");
+        } else if (total !== 100) {
+            alert('Vui lòng nhập đúng dữ liệu phần trăm cho mỗi cột điểm!');
         } else {
             let gradArray = [];
             let percentArray = [];

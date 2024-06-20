@@ -69,23 +69,33 @@ const Register = () => {
                 formData.append("file", file); // Thêm tập tin vào FormData
                 // console.log(formData.get('file'));
                 // // Kiểm tra dữ liệu gửi đi
+
+                // formData.forEach((value, key) => {
+                //     console.log(key, value);
+                // });
+
                 let response = await APIs.post(endpoints["register"], formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                // cookie.save("token", response.data);
+                console.log(response.data);
                 setTimeout(async () => {
                     alert("Đăng kí thành công! Check mail để xem thông tin chi tiết ");
                     navigate('/login');
                 }, 100);
             } catch (error) {
                 console.error("Đăng ký thất bại:", error);
-                if (error.code === "ERR_NETWORK") {
-                    alert("Lỗi server!");
-                } else {
-                    setShowValid(true);
-                    setMessError('Tên người dùng đã có sẳn, Vui lòng nhập tên khác!')
+                if (error.response) {
+                    if (error.response.status === 400) {
+                        setShowValid(true);
+                        setMessError(error.response.data);
+                    } else if (error.code === "ERR_NETWORK") {
+                        alert("Lỗi server!");
+                    } else {
+                        setShowValid(true);
+                        setMessError('Đăng ký thất bại');
+                    }
                 }
             } finally {
                 setLoading(false);

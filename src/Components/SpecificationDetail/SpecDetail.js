@@ -140,7 +140,10 @@ const SpecDetail = () => {
     const downloadFile = async () => {
         const response = await fetch(spec.fileSpec);
         const blob = await response.blob();
-        saveAs(blob, 'decuong.docx');
+        if (spec.typeofspecifi.idType === 1)
+            saveAs(blob, 'decuong.docx');
+        else
+            saveAs(blob, 'decuong.pdf');
     };
 
     return (
@@ -188,7 +191,7 @@ const SpecDetail = () => {
                             disabled={true} // Disable user interactions
                         />
                     </>) : (<>
-                        <ViewFile link={spec.fileSpec} />
+                        <ViewFile link={spec.fileSpec} type={spec.typeofspecifi.idType} />
                     </>)}
                     <Table striped bordered hover>
                         <thead>

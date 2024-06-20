@@ -1,0 +1,250 @@
+.parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box-mg {
+    width: 69%;
+    height: 70%;
+    padding: 20px;
+    align-content: center;
+    background-color: var(--profile-color);
+    box-shadow: 10px 12px 9px rgba(0, 0, 0, 0.2);
+    border-radius: 23px;
+}
+
+.container-profile {
+    height: 570px;
+    background-color: var(--profile-color);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.backgroud-image {
+    width: 100%;
+    height: 230px;
+    overflow: hidden;
+}
+
+.backgroud-image img {
+    width: 100%;
+
+}
+
+.avatar-image {
+    position: absolute;
+    top: 150px;
+    left: 25px;
+    background-color: rgb(228, 0, 0);
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    padding: 5px;
+}
+
+.avatar-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.profile-top {
+    position: absolute;
+    top: 245px;
+    left: 220px;
+}
+
+.table-infor {
+    position: absolute;
+    width: 47%;
+    top: 350px;
+    left: 50px;
+    height: 190px;
+    font-size: 18px;
+}
+
+.change-pass {
+    position: absolute;
+    top: 250px;
+    left: 600px;
+    width: 47%;
+    height: 320px;
+    background-color: rgb(253, 158, 34);
+    padding: 5px 20px;
+    border-radius: 9px;
+}
+
+.btn-chage-pass {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.btn-pass {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    background: linear-gradient(119deg, #9900ff, #007cf0);
+}
+
+.btn-pass:hover {
+    background: linear-gradient(90deg, #ff048e, #0290d1);
+}
+
+.form-edit {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.set-chager {
+    position: absolute;
+    right: 0px;
+    top: 250px;
+}
+
+.set-file-avatar {
+    width: auto;
+    height: 90%;
+    padding: 10px;
+    background-color: #9900ff;
+}
+
+.set-file-avatar img {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+.form-date-gender {
+    position: absolute;
+    /* background-color: #ff048e; */
+    height: 70%;
+    right: 10px;
+    top: 10px;
+    width: 350px;
+}
+
+.form-input-profile {
+    width: 68%;
+    height: 90%;
+    background-color: #4b9efd;
+    padding: 10px;
+}
+
+.btn-cancel {
+    position: absolute;
+    bottom: 1px;
+    right: 230px;
+    width: 200px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.btn-edit {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 200px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* DatePicker.css */
+
+/* Style for the container of DatePicker */
+.DatePickerContainer {
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;
+}
+
+/* Style for the DatePicker input field */
+.DatePickerInput {
+    width: 70%;
+    padding: 8px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Style for the calendar popover */
+.DatePickerPopover {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Style for the calendar */
+.DatePickerCalendar {
+    font-family: inherit;
+}
+
+/* Style for the calendar header */
+.DatePickerHeader {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Style for the previous and next month buttons */
+.DatePickerPrevButton,
+.DatePickerNextButton {
+    cursor: pointer;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+}
+
+/* Style for weekdays */
+.DatePickerWeekdays {
+    display: flex;
+}
+
+/* Style for individual weekday */
+.DatePickerWeekday {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+}
+
+/* Style for days in the calendar */
+.DatePickerDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+/* Style for individual day */
+.DatePickerDay {
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Style for selected day */
+.DatePickerDay--selected {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Style for today's day */
+.DatePickerDay--today {
+    border: 1px solid #007bff;
+    border-radius: 4px;
+}
+
+/* Style for disabled days */
+.DatePickerDay--disabled {
+    color: #ccc;
+    pointer-events: none;
+}

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useReducer, useState } from "react";
 import APIs, { endpoints, BASE_URL, authApi } from "../../Configs/APIs";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import './Home.css'
 import { FaSearch } from "react-icons/fa";
 import { UserContext } from "../../Configs/Contexts";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 
 const Home = () => {
-    // reducer page
+    // reducer phân trang
     const PageReducer = (page, action) => {
         switch (action.type) {
             case "next": {
@@ -36,6 +36,7 @@ const Home = () => {
     const [page, dispatch] = useReducer(PageReducer, 1);
     const navigate = useNavigate();
     const [pageSize, setPageSize] = useState(0);
+    const [supjects, setSupjects] = useState(null);
 
     // gọi API lấy dữ liệu
     const fetchSpec = async () => {
@@ -45,11 +46,31 @@ const Home = () => {
             authApi().get(url).then(response => {
                 setSpecList(response.data);
                 setPageSize(Math.ceil(response.data.totalCount / 5));
-            }).catch(error => { });
+            }).catch(error => {
+                if (error.response && error.response.status === 404) {
+                    setLoading(false);
+                    setSpecList(null);
+                } else {
+                    console.error('An error occurred:', error);
+                }
+            });
         } catch (error) {
-
+            setLoading(false);
         }
     };
+    // api lấy dữ liệu môn học
+    const subjects = async () => {
+        try {
+            let response = await authApi().get(endpoints['subjects']);
+            setSupjects(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        subjects();
+    }, []);
 
     useEffect(() => {
         setLoading(false);
@@ -57,14 +78,17 @@ const Home = () => {
 
     useEffect(() => {
         fetchSpec();
-    }, [page]);
+    }, [page, nameTeach, nameSpec, credit, idSub]);
 
     const toSpecDetail = (s) => {
         navigate('/display-spec', { state: { spec: s } });
     };
 
     const showLog = () => {
-        console.log(page);
+        setCredit('');
+        setNameSpec('');
+        setNameTeach('');
+        setIdSub('');
     };
 
     // hàm định dạng ngày
@@ -78,16 +102,43 @@ const Home = () => {
             <div className="container-home">
                 <div className="search-spec">
                     <FaSearch />
-                    <input type="text" placeholder="Nhập tên đề cương để tìm kiếm" />
-                    <h3 className="btn" style={{ marginRight: '0px' }} onClick={showLog}>search</h3>
+                    <input type="text" placeholder="Nhập tên đề cương để tìm kiếm" value={nameSpec} onChange={e => setNameSpec(e.target.value)} />
+                    <h3 className="btn" style={{ marginRight: '0px' }} onClick={showLog}>Clean</h3>
                 </div>
+                <Form className="d-flex">
+                    <Form.Group className="mt-3 col-6" controlId="exampleForm.ControlInput1">
+                        <Form.Label className="mb-0">Tên Giảng viên biên soạn</Form.Label>
+                        <Form.Control type="text" placeholder="Tên người dùng tác giả" style={{ height: '50px' }} value={nameTeach} onChange={e => setNameTeach(e.target.value)} />
+                    </Form.Group>
+                    <Form.Group className="col-2 mt-3">
+                        <Form.Label className="mb-0">Số tín chỉ</Form.Label>
+                        <Form.Select aria-label="Default select example" style={{ height: '50px' }} value={credit} onChange={e => setCredit(e.target.value)}>
+                            <option value="">Mặc định</option>
+                            <option value="2">Môn học 2 tín chỉ</option>
+                            <option value="3">Môn học 3 tín chỉ</option>
+                            <option value="4">Môn học 4 tín chỉ</option>
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group className="col-2 mt-3">
+                        <Form.Label className="mb-0">Môn học</Form.Label>
+                        <Form.Select aria-label="Default select example" style={{ height: '50px' }} value={idSub} onChange={e => setIdSub(e.target.value)}>
+                            <option value="">Mặc định</option>
+                            {supjects !== null && <>
+                                {supjects.map(s => (
+                                    <option value={s.idSubject}>{s.nameSubject}</option>
+                                ))}
+                            </>}
+                        </Form.Select>
+                    </Form.Group>
+                </Form>
 
                 {/* hiển thị các danh sách đề cương */}
                 {loading === true ? (<div className="loader-spec"></div>) : (
                     <>
                         {specList === null ? (<>
                             <div className="d-flex justify-content-center">
-                                <h2 style={{ color: 'gray' }}>Chưa có đề cương nào!</h2>
+                                <h2 style={{ color: 'gray' }}>Không tìm thấy đề cương nào!</h2>
                             </div>
                         </>) : (<>
                             <div className="spec-container">
@@ -137,11 +188,11 @@ const Home = () => {
                                                 </a>
                                             </li>
                                         </>}
-                                        <li className="page-item"><a className="page-link" >{page}</a></li>
+                                        <li className="page-item"><a className="page-link" style={{ backgroundColor: '#D6E9F1' }}>{page}</a></li>
                                         {page !== pageSize ? <>
                                             <li className="page-item"><a className="page-link" onClick={() => dispatch({ type: 'num', payload: page })}>{page + 1}</a></li>
                                             <li className="page-item">
-                                                <a className="page-link" href="#" aria-label="Next">
+                                                <a className="page-link" aria-label="Next">
                                                     <span aria-hidden="true" onClick={() => dispatch({ type: 'next' })}>Trang sau</span>
                                                 </a>
                                             </li>
