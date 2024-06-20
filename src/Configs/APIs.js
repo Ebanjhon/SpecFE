@@ -17,9 +17,9 @@ export const endpoints = {
     'room-chat': (iduser) => `/api/chatrooms/users?userId=${iduser}`,
     'create-specification': `/api/specifications/`,
     'create-chat-room': `/api/addchat`,
+    'vn-pay': `/api/submitOrder`,
     'gradSpec': (idSpec) => `/api/specifications/listspecgrande/${idSpec}`,
     // 'search-user-chat': (username) => `/api/searchusername?username=${username}`,
-
 }
 
 // console.info(cookie.load('token'))
