@@ -223,7 +223,7 @@ const Register = () => {
                             className="input-regist"
                             type="file"
                             name="avatar"
-                            accept="image/*"
+                            accept='image/png, image/jpeg'
                             onChange={handleFileChange} // Thêm hàm xử lý tập tin
                         />
                     </Form.Group>

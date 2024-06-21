@@ -12,6 +12,7 @@ import APIs, { authApi, endpoints } from '../../Configs/APIs';
 import { UserContext } from '../../Configs/Contexts';
 import { FaFileDownload } from "react-icons/fa";
 import { saveAs } from 'save-as';
+import html2pdf from 'html2pdf.js';
 const SpecDetail = () => {
     // dùng để lấy dữ liệu truyền qua state
     const location = useLocation();
@@ -24,13 +25,11 @@ const SpecDetail = () => {
     const [comment, setComment] = useState(null);
     const [gradSpec, setGradSpec] = useState(null);
     const [childContent, setChildContent] = useState({});
-
     // hàm định dạng ngày
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         return date.toLocaleDateString();
     };
-
     // fetch comments
     const fetchComments = async () => {
         if (comment === null)
@@ -86,10 +85,6 @@ const SpecDetail = () => {
         fetchAuthor();
         fetchCotDiems();
     }, [])
-
-    const test = () => {
-        console.log(comment);
-    };
 
     const crt_comment_parent = async () => {
         if (content !== '') {
@@ -149,17 +144,68 @@ const SpecDetail = () => {
 
     // tải file xuong
     const downloadFile = async () => {
-        const response = await fetch(spec.fileSpec);
-        const blob = await response.blob();
-        if (spec.typeofspecifi.idType === 1)
-            saveAs(blob, 'decuong.docx');
-        else
-            saveAs(blob, 'decuong.pdf');
+        try {
+            let response = await authApi().get(endpoints['check-spec'](userCurrent.idUser, spec.idSpec));
+            console.log(response.data);
+            if (response.data) {// nếu đã tải
+                const response = await fetch(spec.fileSpec);
+                const blob = await response.blob();
+                if (spec.typeofspecifi.idType === 1)
+                    saveAs(blob, 'decuong.docx');
+                else if (spec.typeofspecifi.idType === 2)
+                    saveAs(blob, 'decuong.pdf');
+                else
+                    handleExportPDF();
+            } else {// nếu cưa tải thì thanh toán và trừ coin
+                setTimeout(async () => {
+                    try {
+                        const u = await authApi().post(endpoints['save-spec'](userCurrent.idUser, spec.idSpec));
+                        if (u.status === 200) {
+                            const response = await fetch(spec.fileSpec);
+                            const blob = await response.blob();
+                            if (spec.typeofspecifi.idType === 1)
+                                saveAs(blob, 'decuong.docx');
+                            else if (spec.typeofspecifi.idType === 2)
+                                saveAs(blob, 'decuong.pdf');
+                            else
+                                handleExportPDF();
+                            // cập nhật coin
+                            setTimeout(async () => {
+                                const u = await authApi().get(endpoints['current-user']);
+                                sessionStorage.setItem('user', JSON.stringify(u.data));
+                                dispatch({
+                                    "type": "login",
+                                    "payload": u.data
+                                });
+                            }, 100);
+                        }
+                    } catch (error) {
+                        console.error(error);
+                        alert("Bạn không đủ Xu để tải đề cương này, Hãy nạp thêm Xu để tải tài liệu xuống!😁");
+                    }
+                }, 100);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
+    // tải text to pdf
+    const handleExportPDF = () => {
+        // Thiết lập các tùy chọn cho việc chuyển đổi
+        const options = {
+            margin: 1,
+            filename: 'download.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+
+        // Chuyển đổi HTML thành PDF
+        html2pdf().from(spec.content).set(options).save();
+    };
     return (
         <div className='mtop height-min d-flex justify-content-center height-min'>
-
             <div className='infor-author-spec d-flex'>
                 <h4>Thông tin tác giả</h4>
                 <div className='text-infor'>
@@ -187,6 +233,7 @@ const SpecDetail = () => {
                     <div className='icon-download' onClick={downloadFile}>
                         <FaFileDownload />
                     </div>
+                    {/* // hiển thị nội dung soạn */}
                     {spec.typeofspecifi.idType === 3 ? (<>
                         <Editor
                             value={spec.content}
@@ -201,6 +248,7 @@ const SpecDetail = () => {
                             }}
                             disabled={true} // Disable user interactions
                         />
+
                     </>) : (<>
                         <ViewFile link={spec.fileSpec} type={spec.typeofspecifi.idType} />
                     </>)}
@@ -301,6 +349,7 @@ const SpecDetail = () => {
                     <h6><h5>Hội đồng xét duyệt: </h5>10094</h6>
                     <h6><h5>Chủ tịch: </h5>Nguyễn văn A</h6>
                     <h6><h5>Thư ký: </h5>Nguyễn văn C</h6>
+                    {/* <button onClick={handleExportPDF}>Export to PDF</button> */}
                 </div>
             </div>
         </div>

@@ -1,8 +1,6 @@
 import axios from "axios";
 import cookie from "react-cookies";
-
 export const BASE_URL = 'http://localhost:8000/QuanLyDeCuong/';
-
 export const endpoints = {
     'subjects': '/api/subjects',
     'login': '/api/login/',
@@ -20,9 +18,11 @@ export const endpoints = {
     'vn-pay': `/api/submitOrder`,
     'gradSpec': (idSpec) => `/api/specifications/listspecgrande/${idSpec}`,
     'change-pass': (iduser) => `/api/users/change-password/${iduser}`,
+    'update-user': (idUser) => `/api/users/update/${idUser}`,
+    'search-user-chat': (username) => `/api/searchusername?username=${username}`,
+    'check-spec': (iduser, idspec) => `/api/checkUserHasSpec?userId=${iduser}&specId=${idspec}`,
+    'save-spec': (iduser, idspec) => `/api/buySpec?userId=${iduser}&specId=${idspec}`,
 }
-
-// console.info(cookie.load('token'))
 
 export const authApi = () => {
     return axios.create({

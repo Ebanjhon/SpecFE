@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './Components/Home/Home';
 import { useEffect, useReducer } from 'react';
 import UserReducer from './Configs/UserReducer';
@@ -15,6 +15,8 @@ import SpecDetail from './Components/SpecificationDetail/SpecDetail.js';
 import ViewFile from './Components/ViewFile.js';
 import CreateSpec from './Components/SpecificationDetail/CreateSpec.js';
 import UpdateUser from './Components/User/UpdateUser.js';
+import MySpec from './Components/MySpec/MySpec.js';
+import PageNotFound from './Components/Page404/PageNotFound.js';
 
 function App() {
     // hàm lấy user trong sessionStore
@@ -37,6 +39,7 @@ function App() {
                             <Route path='/chat' element={<Chat />} />
                             <Route path='/spec-editer' element={<CreateSpec />} />
                             <Route path='/view-file' element={<ViewFile />} />
+                            <Route path='/My-spec' element={<MySpec />} />
                             <Route path='/update-user' element={<UpdateUser />} />
                             <Route path='/display-spec' element={<SpecDetail />} />
                             <Route path='/user-infor' element={<UserDetail />} />
@@ -50,7 +53,7 @@ function App() {
                             <Route path="/logout" element={<Navigate to="/login" />} />
                         </>
                     )}
-
+                    <Route path='*' element={<PageNotFound />} />
                 </Routes>
                 <Footer />
             </UserContext.Provider>

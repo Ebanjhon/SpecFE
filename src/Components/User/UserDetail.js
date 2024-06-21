@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './UserDetail.css';
 import { UserContext } from '../../Configs/Contexts';
 import Button from 'react-bootstrap/Button';
@@ -6,16 +6,19 @@ import { Form, InputGroup } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { authApi, endpoints } from '../../Configs/APIs';
+import APIs, { authApi, endpoints } from '../../Configs/APIs';
+import { set } from 'date-fns';
+import axios from 'axios';
 const UserDetail = () => {
     const [user, dispatch] = useContext(UserContext);
     const [state, setSate] = useState(false);
-    const [file, setFile] = useState();
+    const [file, setFile] = useState(null);
     const [messAlert, setMessAlert] = useState('');
+    const [editUser, setEditUser] = useState(user);
     const [typeAlert, setTypeAlert] = useState('alert-info');
     const [showAlert, setShowAlert] = useState(false);
     const [stateProfile, setSateProfile] = useState(false);
-    const [startDate, setStartDate] = useState(new Date());
+    const [loading, setLoading] = useState(false);
     const [password, setPassword] = useState({
         oldpass: "",
         newpass: "",
@@ -55,6 +58,11 @@ const UserDetail = () => {
         setTimeout(() => {
             setShowAlert(false);
         }, 2000);
+    };
+    // hàm định dạng ngày
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString();
     };
     // gọi api thay dôi pas
     const chagePass = async () => {
@@ -98,6 +106,77 @@ const UserDetail = () => {
             showAlertMess(3);
         }
     };
+    // hàm lấy hinh ảnh và hiển thị hinh ảnh
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setEditUser({ ...editUser, avatar: reader.result })
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // Hàm chuyển đổi ngày tháng thành định dạng dd-MM-yyyy
+    const formatDateUpdate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    };
+
+    // hàm thay dữ liệu user
+    const updateUser = async () => {
+        setLoading(true);
+        let formData = new FormData();
+        if (file !== null) {
+            formData.append("file", file);
+        }
+        formData.append("firstName", editUser.firstname);
+        formData.append("lastName", editUser.lastname);
+        formData.append("address", editUser.address);
+        formData.append("email", editUser.email);
+        formData.append("phone", editUser.phone);
+        formData.append("dateOfBirth", formatDateUpdate(editUser.dateOfBirth));
+        formData.append("gender", editUser.gender);
+
+        formData.forEach((value, key) => {
+            console.log(key, value);
+        });
+        try {
+            let response = await authApi().post(endpoints['update-user'](user.idUser), formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            const requestURL = response.request.responseURL;
+            console.log('Request URL:', requestURL);
+            if (response.status === 200) {
+                setMessAlert('Cập nhật thông tin user thành công!');
+                showAlertMess(1);
+
+                setTimeout(async () => {
+                    const u = await authApi().get(endpoints['current-user']);
+                    sessionStorage.setItem('user', JSON.stringify(u.data));
+                    dispatch({
+                        "type": "login",
+                        "payload": u.data
+                    });
+                    setLoading(false);
+                }, 100);
+            }
+        } catch (error) {
+            alert("Thất bại");
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        setSateProfile(false);
+    }, [user]);
 
     return (
         <div className='mtop parent-container height-min'>
@@ -111,20 +190,21 @@ const UserDetail = () => {
                     {stateProfile === true ? <>
                         <Form className='form-edit'>
                             <div className='set-file-avatar'>
-                                <img src='https://i.pinimg.com/originals/89/1c/e8/891ce88cac43afadd7da91fb409a4cb3.jpg' alt='avata' />
+                                <img src={editUser.avatar} alt='avata' />
                                 <InputGroup className="mb-3">
                                     <Form.Control
                                         type='file'
                                         placeholder="Chọn ảnh"
-                                        accept='image'
+                                        accept='image/png, image/jpeg'
+                                        onChange={handleFileChange}
                                         style={{ width: '200px' }}
                                     />
                                 </InputGroup>
                                 <Form.Group>
-                                    <Form.Label className='text-lable'>Nhập tên người dùng</Form.Label>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
                                         <Form.Control
+                                            value={editUser.username}
                                             placeholder="Username"
                                             aria-label="Username"
                                             aria-describedby="basic-addon1"
@@ -135,49 +215,55 @@ const UserDetail = () => {
                             <div className='form-input-profile'>
                                 <Form.Group className="mb-3 w-50" controlId="formBasicEmail">
                                     <Form.Label>First name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Firstname" />
+                                    <Form.Control type="text" placeholder="Enter Firstname" value={editUser.firstname} onChange={(e) => setEditUser({ ...editUser, firstname: e.target.value })} />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3 w-50" controlId="formBasicEmail">
                                     <Form.Label>Last name</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Lastname" />
+                                    <Form.Control type="text" placeholder="Enter Lastname" value={editUser.lastname} onChange={(e) => setEditUser({ ...editUser, lastname: e.target.value })} />
                                 </Form.Group>
                                 <Form.Group className="mb-3 w-50" controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" />
+                                    <Form.Control type="email" placeholder="Enter email" value={editUser.email} onChange={(e) => setEditUser({ ...editUser, email: e.target.value })} />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3 w-50" controlId="formBasicEmail">
                                     <Form.Label>Address</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter Address" />
+                                    <Form.Control type="text" placeholder="Enter Address" value={editUser.address} onChange={(e) => setEditUser({ ...editUser, address: e.target.value })} />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3 w-50" controlId="formBasicEmail">
                                     <Form.Label>Number phone</Form.Label>
-                                    <Form.Control type="Number" placeholder="Enter number phone" />
+                                    <Form.Control type="Number" placeholder="Enter number phone" value={editUser.phone} onChange={(e) => setEditUser({ ...editUser, phone: e.target.value })} />
                                 </Form.Group>
+
                                 <div className='form-date-gender'>
                                     <div className="DatePickerContainer">
                                         <Form.Label>Date of birth</Form.Label>
                                         <DatePicker
-                                            selected={startDate}
-                                            onChange={(date) => setStartDate(date)}
+                                            selected={editUser.dateOfBirth}
+                                            // onChange={(date) => setStartDate(date)}
+                                            onChange={(date) => setEditUser({ ...editUser, dateOfBirth: date })}
                                             className="DatePickerInput" // Assign className for DatePicker input field
                                             calendarClassName="DatePickerPopover" // Assign className for calendar popover
                                             classNamePrefix="DatePicker" // Assign prefix for classNames inside DatePicker
                                         />
+
                                         <Form.Label className='mt-3'>Date of birth</Form.Label>
-                                        <Form.Select aria-label="Default select example">
+                                        <Form.Select aria-label="Default select example" value={editUser.gender} onChange={(e) => setEditUser({ ...editUser, gender: e.target.value })}>
                                             <option value="Nam">Nam</option>
                                             <option value="Nữ">Nữ</option>
-                                            <option value="Khác">Khác</option>
                                         </Form.Select>
                                     </div>
                                 </div>
                             </div>
                         </Form>
-                        <Button variant="danger" onClick={() => changStateProfile(false)} className='btn-cancel'>Hủy</Button>
-                        <Button variant="warning" onClick={() => changStateProfile(false)} className='btn-edit'>Cập nhật</Button>
+                        {loading == true ? <>
+                            <div className="loader-update-user"></div>
+                        </> : <>
+                            <Button variant="danger" onClick={() => changStateProfile(false)} className='btn-cancel'>Hủy</Button>
+                            <Button variant="warning" onClick={updateUser} className='btn-edit'>Cập nhật</Button>
+                        </>}
                     </> : <>
                         <div className='backgroud-image'><img src='/images/bg.jpg' alt='anhr bia' /></div>
                         <div className='avatar-image'><img src={user.avatar} alt='hinh' /></div>
@@ -189,7 +275,7 @@ const UserDetail = () => {
                             </tr>
                             <tr>
                                 <th>Ngày sinh:</th>
-                                <td>{user.dateOfBirth}</td>
+                                <td>{formatDate(user.dateOfBirth)}</td>
                             </tr>
                             <tr>
                                 <th>Giới tính:</th>

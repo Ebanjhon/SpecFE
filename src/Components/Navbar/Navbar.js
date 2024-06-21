@@ -14,7 +14,7 @@ import { FaPlus } from "react-icons/fa";
 import { BsCoin } from "react-icons/bs";
 import './Pay.css';
 import { authApi, endpoints } from '../../Configs/APIs';
-import { Button } from 'react-bootstrap';
+
 const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, dispatch] = useContext(UserContext);
@@ -54,7 +54,7 @@ const Navbar = () => {
     const toggleBox = () => {
         setShowBox(!showBox); // Đảo ngược trạng thái hiển thị của box
     };
-
+    // Kiểm tra nếu đang ở trang 404 thì không hiển thị Navbar
     return (
         <>
             <nav className="navbar fixed-top">
@@ -75,8 +75,10 @@ const Navbar = () => {
                     </div>
                 </>) : (<>
                     <div className="nav-right" style={{ width: 'auto' }}>
-                        <BsCoin className='coinbs' onClick={toggleBox} />
-                        <h4 style={{ lineHeight: '44px', color: 'brown', margin: '0px 5px' }}>{user.coin}</h4>
+                        {user.role === 'ROLE_STUDENT' && (<>
+                            <BsCoin className='coinbs' onClick={toggleBox} />
+                            <h4 style={{ lineHeight: '44px', color: 'brown', margin: '0px 5px' }}>{user.coin}</h4>
+                        </>)}
                         <p style={{ fontSize: '20px', lineHeight: '44px', margin: '0px 5px' }} >Xin chào {user.username}</p>
                         <img src={user.avatar} style={{ width: '44px', height: '44px' }} />
 
@@ -124,7 +126,7 @@ const Navbar = () => {
                             <Link to={'/'} ><div className='btn'><AiOutlineFileProtect /> Duyệt đề cương</div></Link>
                         </>)}
                     </>)}
-                    <Link to={'/'} ><div className='btn'><GrNotes /> Đề cương của tôi</div></Link>
+                    <Link to={'/My-spec'} onClick={showSideBar}><div className='btn'><GrNotes /> Đề cương của tôi</div></Link>
                     <Link to={'/chat'} onClick={showSideBar}><div className='btn'><BiSolidMessageDetail /> Trò chuyện</div></Link>
                     <Link to={'/'} ><div className='btn'><SlCalender /> Calenders</div></Link>
                 </div>
