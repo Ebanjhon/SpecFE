@@ -1,16 +1,86 @@
+.coinbs {
+    font-size: 30px;
+    color: gold;
+    line-height: 44px;
+    margin-top: 7px;
+    cursor: pointer;
+}
+
 .box-buy-coin {
     position: absolute;
-    top: 65px;
+    top: 69px;
+    right: -300px;
+    background: linear-gradient(119deg, #64E8DE, #8A64E8);
+    height: 200px;
+    width: 280px;
+    padding: 10px;
+    transition: right 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.box-buy-coin-show {
+    position: absolute;
+    top: 69px;
     right: 90px;
     background: linear-gradient(119deg, #64E8DE, #8A64E8);
     height: 200px;
     width: 280px;
     padding: 10px;
+    transition: right 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .item-pay {
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(236, 236, 236);
     margin: 5px 0px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.item-packet {
+    background-color: #8A64E8;
+    width: 88%;
+    border-radius: 0px 50px 50px 0px;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s;
+    transition: width 0.3s ease-in-out;
+}
+
+.item-packet h3 {
+    font-size: 30px;
+    font-weight: 700;
+    /* color: aliceblue; */
+    margin-bottom: 0px;
+    color: rgb(243, 236, 236);
+}
+
+.item-packet p {
+    font-size: 18px;
+    font-weight: 700;
+    color: rgb(240, 240, 240);
+    transition: width 0.5s ease;
+    /* Hiệu ứng chuyển đổi độ rộng mượt mà */
+}
+
+.item-packet:nth-child(1) {
+    background: linear-gradient(119deg, #72B2E4, #92E1E2);
+}
+
+.item-packet:nth-child(2) {
+    background: linear-gradient(119deg, #FC210D, #F7CE38);
+
+}
+
+.item-packet:nth-child(3) {
+    background: linear-gradient(69deg, #0A8270, #7CFF6B);
+}
+
+.item-packet:hover {
+    background: linear-gradient(119deg, #a8a8a8, #505050);
+    width: 100%;
+    border-radius: 0px;
 }

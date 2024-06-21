@@ -6,12 +6,21 @@ import { Form, InputGroup } from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { authApi, endpoints } from '../../Configs/APIs';
 const UserDetail = () => {
     const [user, dispatch] = useContext(UserContext);
     const [state, setSate] = useState(false);
     const [file, setFile] = useState();
+    const [messAlert, setMessAlert] = useState('');
+    const [typeAlert, setTypeAlert] = useState('alert-info');
+    const [showAlert, setShowAlert] = useState(false);
     const [stateProfile, setSateProfile] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
+    const [password, setPassword] = useState({
+        oldpass: "",
+        newpass: "",
+        confilmpass: ""
+    });
     // thay doi trang thai sua pass
     const changStatePass = (i) => {
         setSate(i);
@@ -23,13 +32,81 @@ const UserDetail = () => {
     // hàm đổi pass
     const changePassword = (e) => {
         e.preventDefault();
-        console.log('ok');
+    };
+    // hàm chạy alert
+    const showAlertMess = (e) => {
+        switch (e) {
+            case 1:
+                // 201 tạo thành công
+                setTypeAlert('alert-success');
+                break;
+            case 2:
+                // 400 lỗi bad request
+                setTypeAlert('alert-danger');
+                break;
+            case 3:
+                // lỗi không trùng mật khẩu
+                setTypeAlert('alert-warning');
+                break;
+            default:
+            // code block
+        }
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 2000);
+    };
+    // gọi api thay dôi pas
+    const chagePass = async () => {
+        if (password.newpass === '' || password.oldpass === '' || password.confilmpass === '') {
+            setMessAlert('vui lòng nhập đầy đủ mật khẩu!');
+            showAlertMess(2);
+        }
+        else if (password.newpass === password.confilmpass) {
+            try {
+                let formData = new FormData();
+                formData.append("oldPassword", password.oldpass);
+                formData.append("newPassword", password.newpass);
+                formData.forEach((value, key) => {
+                    console.log(key, value);
+                });
+
+                let response = await authApi().post(endpoints["change-pass"](user.idUser), formData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.status === 201) {
+                    setMessAlert('Đổi mật khẩu thành công!');
+                    showAlertMess(1);
+                    changStatePass(false);
+                    setPassword({
+                        oldpass: "",
+                        newpass: "",
+                        confilmpass: ""
+                    });
+                }
+            } catch (error) {
+                if (error.response.status === 404) {
+                    setMessAlert('Mật khẩu củ không khớp!');
+                    showAlertMess(2);
+                }
+            }
+        } else {
+            setMessAlert('mật khẩu mới không khớp!');
+            showAlertMess(3);
+        }
     };
 
     return (
         <div className='mtop parent-container height-min'>
+            {showAlert === true &&
+                <div className={`alert ${typeAlert} show-mess-infor`} role="alert">
+                    {messAlert}
+                </div>
+            }
             <div className="container-home box-mg">
-
                 <div className='container-profile'>
                     {stateProfile === true ? <>
                         <Form className='form-edit'>
@@ -137,21 +214,31 @@ const UserDetail = () => {
                                 <Form onSubmit={changePassword}>
                                     <Form.Group className="" controlId="formBasicPassword">
                                         <Form.Label>Nhập mật khẩu cũ</Form.Label>
-                                        <Form.Control type="password" placeholder="Old Password" />
+                                        <Form.Control type="password"
+                                            placeholder="Old Password"
+                                            onChange={(e) => setPassword({ ...password, oldpass: e.target.value })}
+                                            value={password.oldpass} />
                                     </Form.Group>
 
                                     <Form.Group className="" controlId="formBasicPassword">
                                         <Form.Label>Nhập mật khẩu mởi</Form.Label>
-                                        <Form.Control type="password" placeholder="New Password" />
+                                        <Form.Control type="password"
+                                            placeholder="New Password"
+                                            onChange={(e) => setPassword({ ...password, newpass: e.target.value })}
+                                            value={password.newpass} />
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Form.Label>Nhập lại mật khẩu mởi</Form.Label>
-                                        <Form.Control type="password" placeholder="Password Again" />
+                                        <Form.Control type="password"
+                                            placeholder="Password Again"
+                                            onChange={(e) => setPassword({ ...password, confilmpass: e.target.value })}
+                                            value={password.confilmpass} />
                                     </Form.Group>
                                     <div className='btn-chage-pass'>
-                                        <Button variant="success" type='submit'>Thay đôi mật khẩu</Button>
-                                        <Button variant="danger" type='button' onClick={() => changStatePass(false)}>Thay đôi mật khẩu</Button>
+                                        {/* <Button type='submit' >Hiển thị mật khẩu</Button> */}
+                                        <Button variant="success" type='submit' onClick={chagePass}>Thay đôi mật khẩu</Button>
+                                        <Button variant="danger" type='button' onClick={() => changStatePass(false)}>Hủy thay đôi</Button>
                                     </div>
                                 </Form>
                             </div>

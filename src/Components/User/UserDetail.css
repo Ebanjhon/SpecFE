@@ -248,3 +248,11 @@
     color: #ccc;
     pointer-events: none;
 }
+
+.show-mess-infor {
+    position: absolute;
+    z-index: 9;
+    top: 70px;
+    width: 50%;
+
+}

@@ -18,6 +18,7 @@ import { Button } from 'react-bootstrap';
 const Navbar = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [user, dispatch] = useContext(UserContext);
+    const [showBox, setShowBox] = useState(false);
     const navigate = useNavigate();
 
     const logout = () => {
@@ -34,11 +35,11 @@ const Navbar = () => {
         navigate("/user-infor");
     }
     // gọi hàm thanh toán
-    const payCoin = async () => {
+    const payCoin = async (e) => {
         let formData = new FormData();
 
         formData.append("username", user.username);
-        formData.append("amount", 10000);
+        formData.append("amount", e);
         try {
             let response = await authApi().post(endpoints['vn-pay'], formData);
             let redirectUrl = response.data;
@@ -49,6 +50,10 @@ const Navbar = () => {
             console.error(error);
         }
     }
+    // gọi box lên
+    const toggleBox = () => {
+        setShowBox(!showBox); // Đảo ngược trạng thái hiển thị của box
+    };
 
     return (
         <>
@@ -69,16 +74,29 @@ const Navbar = () => {
                         <Link to={'/register'}><button type="button" class="btn btn-primary" style={{ width: "100px", marginRight: '25px' }}>Đăng ký</button></Link>
                     </div>
                 </>) : (<>
-                    <div className="nav-right" style={{ width: '260px' }}>
-                        <Link to={'/'}><BsCoin style={{ fontSize: '30px', color: 'yellowgreen', lineHeight: '44px' }} /></Link>
-                        <h4 style={{ lineHeight: '44px', color: 'brown' }}>0</h4>
-                        <p style={{ fontSize: '20px', lineHeight: '44px' }} >Xin chào {user.username}</p>
+                    <div className="nav-right" style={{ width: 'auto' }}>
+                        <BsCoin className='coinbs' onClick={toggleBox} />
+                        <h4 style={{ lineHeight: '44px', color: 'brown', margin: '0px 5px' }}>{user.coin}</h4>
+                        <p style={{ fontSize: '20px', lineHeight: '44px', margin: '0px 5px' }} >Xin chào {user.username}</p>
                         <img src={user.avatar} style={{ width: '44px', height: '44px' }} />
 
-                        <div className='box-buy-coin' style={{ height: '300px' }}>
+                        <div className={` ${!showBox ? 'box-buy-coin' : 'box-buy-coin-show'}`} style={{ height: '300px' }}>
                             <h5>Thanh Toán VNPay</h5>
                             <div className='item-pay' style={{ height: '250px' }} >
-                                <Button onClick={payCoin}>Thanh Toán</Button>
+                                <div className='item-packet' style={{ height: '70px' }} onClick={() => payCoin(10000)}>
+                                    <h3>10.000.VND</h3>
+                                    <p>/10 Coin</p>
+                                </div>
+
+                                <div className='item-packet' style={{ height: '70px' }} onClick={() => payCoin(20000)}>
+                                    <h3>20.000.VND</h3>
+                                    <p>/20 Coin</p>
+                                </div>
+
+                                <div className='item-packet' style={{ height: '70px' }} onClick={() => payCoin(50000)}>
+                                    <h3>50.000.VND</h3>
+                                    <p>/50 Coin</p>
+                                </div>
                             </div>
                         </div>
                     </div>

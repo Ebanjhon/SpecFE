@@ -175,7 +175,7 @@ const Chat = () => {
                     </div>
                     {isFocused && <div className="focus-div">
                         {load.search === true ? <>
-                            tải...
+                            <p>Không tim thấy kết quả nào</p>
                         </> : <>
                             {listSearch === null ? <>
                                 <p>Không tim thấy kết quả nào</p>
