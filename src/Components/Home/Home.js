@@ -65,8 +65,29 @@ const Home = () => {
         }
     };
 
+
+    // Hàm thay đổi biểu tượng Dialogflow
+    const changeIcon = () => {
+        const interval = setInterval(() => {
+            const dfMessenger = document.querySelector("df-messenger");
+            if (dfMessenger) {
+                const shadowRoot = dfMessenger.shadowRoot;
+                if (shadowRoot) {
+                    const chatIcon = shadowRoot.querySelector(".df-chat-icon");
+                    if (chatIcon) {
+                        chatIcon.style.background = "url('/public/images/10141610.jpg') no-repeat center center";
+                        chatIcon.style.backgroundSize = "contain";
+                        clearInterval(interval);
+                    }
+                }
+            }
+        }, 1000);
+    };
+
+
     useEffect(() => {
         subjects();
+        changeIcon();
     }, []);
 
     useEffect(() => {
@@ -93,6 +114,7 @@ const Home = () => {
         const date = new Date(timestamp);
         return date.toLocaleDateString();
     };
+
 
     return (
         <div className="mtop d-flex justify-content-center height-min">
@@ -208,6 +230,16 @@ const Home = () => {
                         </>)}
                     </>
                 )}
+
+
+                <df-messenger
+                    chat-icon="https://res.cloudinary.com/daimrgwuu/image/upload/v1719025996/icon_ai_vj99jf.png"
+                    intent="WELCOME"
+                    chat-title="AI_SPEC"
+                    agent-id="c599d7c1-b4b2-4f55-8467-a8f1e36ad465"
+                    language-code="vi"
+                ></df-messenger>
+
 
             </div>
         </div>
