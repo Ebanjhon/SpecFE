@@ -22,6 +22,8 @@ export const endpoints = {
     'search-user-chat': (username) => `/api/searchusername?username=${username}`,
     'check-spec': (iduser, idspec) => `/api/checkUserHasSpec?userId=${iduser}&specId=${idspec}`,
     'save-spec': (iduser, idspec) => `/api/buySpec?userId=${iduser}&specId=${idspec}`,
+    'get-spec-user-oder': (iduser) => `/api/specifications/getSpecsbyUser/${iduser}`,
+    'delete-spec': (idspec) => `/api/specifications/${idspec}`,
 }
 
 export const authApi = () => {

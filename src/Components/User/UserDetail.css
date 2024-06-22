@@ -37,12 +37,17 @@
     position: absolute;
     top: 150px;
     left: 25px;
-    background-color: rgb(228, 0, 0);
+    background-color: rgb(199, 199, 199);
     border-radius: 50%;
     width: 180px;
     height: 180px;
     padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #a84f4f;
 }
+
 
 .avatar-image img {
     width: 100%;
@@ -106,10 +111,10 @@
 }
 
 .set-file-avatar {
-    width: auto;
+    width: 28%;
     height: 90%;
     padding: 10px;
-    background-color: #9900ff;
+    background-color: #979797;
 }
 
 .set-file-avatar img {
@@ -130,7 +135,7 @@
 .form-input-profile {
     width: 68%;
     height: 90%;
-    background-color: #4b9efd;
+    background-color: #a0a0a0;
     padding: 10px;
 }
 

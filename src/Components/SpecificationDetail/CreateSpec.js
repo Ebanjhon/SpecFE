@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 const CreateSpec = () => {
     const navigate = useNavigate();
-    const [content, setContent] = useState(); // dữ liệu spec nhap lieu
     const [nameGrad, setNameGrad] = useState('');
     const [loading, setLoading] = useState(false);
     const [userCurrent, dispatch] = useContext(UserContext);
@@ -41,7 +40,6 @@ const CreateSpec = () => {
 
         }
     };
-    const [granSpec, setGranSpec] = useState();
     useEffect(() => {
         fetchSubject();
         gradingsheet();
@@ -51,7 +49,6 @@ const CreateSpec = () => {
     const createGradingSheet = async () => {
         try {
             let response = await authApi().post(endpoints['gradingsheet'], { nameColumn: nameGrad });
-            // console.log(response.data);
         } catch (error) {
 
         }
@@ -100,18 +97,6 @@ const CreateSpec = () => {
             }
         }
     };
-
-    // // hàm lấy dữ liệu đang nhâp
-    // const log = () => {
-    //     if (editorRef.current) {
-    //         const dataText = editorRef.current.getContent();
-    //         setContent(dataText); // Cập nhật state content với giá trị mới
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     console.log("ok"); // Hiển thị giá trị content sau khi đã được cập nhật
-    // }, [content]);
 
     // hàm chọn slect
     const handleStatusChange = (event) => {
@@ -202,9 +187,6 @@ const CreateSpec = () => {
 
     return (
         <div className='mtop height-min text-editor'>
-            {/* <div class="alert alert-success thong-bao" role="alert">
-                Đăng tải đề cương thành công!
-            </div> */}
             <div className='top-view-create'>
                 <h3>Soạn đề cương </h3>
                 <select className="select-option" aria-label="Default select example" onChange={handleStatusChange}>
@@ -369,21 +351,6 @@ const CreateSpec = () => {
                     {/* <Button variant='danger' onClick={log}>Hủy</Button> */}
                 </div>
             </Form>
-
-            {/* // hiển thị */}
-            {/* <Editor
-                value={data}
-                init={{
-                    height: '700',
-                    width: '65%',
-                    menubar: false,
-                    toolbar: false,
-                    readonly: true, // Make the editor read-only
-                    plugins: [],
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-                disabled={true} // Disable user interactions
-            /> */}
         </div >
     );
 }

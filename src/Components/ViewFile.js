@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "@cyntler/react-doc-viewer/dist/index.css";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 
@@ -8,13 +8,6 @@ const ViewFile = React.memo(({ link, type }) => {
         { uri: link },
     ];
 
-
-    // const [activeDocument, setActiveDocument] = useState(docs[0]);
-
-    // const handleDocumentChange = (document) => {
-    //     setActiveDocument(document);
-    // };
-
     return (
         <>
             <DocViewer
@@ -22,13 +15,6 @@ const ViewFile = React.memo(({ link, type }) => {
                 pluginRenderers={DocViewerRenderers}
                 style={{ height: '700px', overflow: 'auto' }}
             />
-
-            {/* <DocViewer
-                documents={docs}
-                activeDocument={activeDocument}
-                onDocumentChange={handleDocumentChange}
-                style={{ heightL: '500px' }}
-            /> */}
         </>
 
     )

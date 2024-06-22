@@ -7,8 +7,6 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import APIs, { authApi, endpoints } from '../../Configs/APIs';
-import { set } from 'date-fns';
-import axios from 'axios';
 const UserDetail = () => {
     const [user, dispatch] = useContext(UserContext);
     const [state, setSate] = useState(false);
@@ -201,6 +199,7 @@ const UserDetail = () => {
                                     />
                                 </InputGroup>
                                 <Form.Group>
+                                    <Form.Label>UserName</Form.Label>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
                                         <Form.Control
@@ -258,7 +257,7 @@ const UserDetail = () => {
                                 </div>
                             </div>
                         </Form>
-                        {loading == true ? <>
+                        {loading === true ? <>
                             <div className="loader-update-user"></div>
                         </> : <>
                             <Button variant="danger" onClick={() => changStateProfile(false)} className='btn-cancel'>Hủy</Button>
@@ -266,7 +265,7 @@ const UserDetail = () => {
                         </>}
                     </> : <>
                         <div className='backgroud-image'><img src='/images/bg.jpg' alt='anhr bia' /></div>
-                        <div className='avatar-image'><img src={user.avatar} alt='hinh' /></div>
+                        <div className='avatar-image'>{user.avatar !== null ? <><img src={user.avatar} alt='hinh' /></> : <><h2>avatar</h2></>}</div>
                         <div className='profile-top'><p style={{ fontStyle: 'italic' }}>({user.role})🐼</p><h4>{user.username}</h4></div>
                         <table className='table-infor'>
                             <tr>

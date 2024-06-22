@@ -67,6 +67,7 @@ const Navbar = () => {
                     <Link to={'/'}><img src='./images/images.png' style={{ width: '60px', height: '60px', marginRight: '50px' }} /></Link>
 
                 </div>
+
                 <div className="nav-center"><h2>Đại học Mở</h2></div>
                 {!user ? (<>
                     <div className="nav-right">

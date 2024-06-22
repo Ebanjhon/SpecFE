@@ -1,12 +1,9 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import APIs, { endpoints, BASE_URL, authApi } from "../../Configs/APIs";
 import { Button, Form } from "react-bootstrap";
 import './Home.css'
 import { FaSearch } from "react-icons/fa";
-import { UserContext } from "../../Configs/Contexts";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
 
 const Home = () => {
     // reducer phân trang
