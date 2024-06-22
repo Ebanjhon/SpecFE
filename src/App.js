@@ -34,16 +34,20 @@ function App() {
                 <Routes>
                     {user !== null ? ( // có user
                         <>
-                            <Route path='/' element={<Home />} />
-                            <Route path='/logout' element={<Sighout />} />
-                            <Route path='/chat' element={<Chat />} />
-                            <Route path='/spec-editer' element={<CreateSpec />} />
-                            <Route path='/view-file' element={<ViewFile />} />
-                            <Route path='/My-spec' element={<MySpec />} />
-                            <Route path='/update-user' element={<UpdateUser />} />
-                            <Route path='/display-spec' element={<SpecDetail />} />
-                            <Route path='/user-infor' element={<UserDetail />} />
                             <Route path="/login" element={<Navigate to="/" />} />
+                            <Route path='/logout' element={<Sighout />} />
+                            <Route path='/update-user' element={<UpdateUser />} />
+                            <Route path='/user-infor' element={<UserDetail />} />
+                            {user.avatar === null ? <>
+                                <Route path="/" element={<Navigate to="/user-infor" />} />
+                            </> : <>
+                                <Route path='/' element={<Home />} />
+                                <Route path='/chat' element={<Chat />} />
+                                <Route path='/spec-editer' element={<CreateSpec />} />
+                                <Route path='/view-file' element={<ViewFile />} />
+                                <Route path='/My-spec' element={<MySpec />} />
+                                <Route path='/display-spec' element={<SpecDetail />} />
+                            </>}
                         </>
                     ) : ( // không có user
                         <>

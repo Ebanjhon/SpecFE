@@ -89,7 +89,7 @@ const MySpec = () => {
             </>}
             <div className="container-home" style={{ width: '86%' }}>
                 <h2>Danh sách các đề cương của bạn</h2>
-                <Table striped bordered hover>
+                <Table striped bordered hover className="mytable">
                     <thead>
                         <tr>
                             <th>Mã Đề</th>

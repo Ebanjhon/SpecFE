@@ -184,7 +184,7 @@ const Chat = () => {
                                     <div className='item-result' onClick={e => chating(u)} onMouseDown={(e) => e.preventDefault()}>
                                         <div className='avatar-chat'><img style={{ width: '60px', height: '60px' }} src={u.avatar} /></div>
                                         <div className='infor-friend'>
-                                            <p style={{ fontStyle: 'italic' }}>(Teacher)</p>
+                                            <p style={{ fontStyle: 'italic' }}>({u.role})</p>
                                             <h5>{u.username}</h5>
                                         </div>
                                         <IoMdAddCircle style={{ fontSize: '50px', cursor: 'pointer', marginLeft: '20px', color: '#00A183' }} />

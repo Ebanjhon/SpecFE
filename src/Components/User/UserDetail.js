@@ -193,7 +193,7 @@ const UserDetail = () => {
                                     <Form.Control
                                         type='file'
                                         placeholder="Chọn ảnh"
-                                        accept='image/png, image/jpeg'
+                                        accept='image/png, image/jpeg, image/gif'
                                         onChange={handleFileChange}
                                         style={{ width: '200px' }}
                                     />
@@ -264,7 +264,7 @@ const UserDetail = () => {
                             <Button variant="warning" onClick={updateUser} className='btn-edit'>Cập nhật</Button>
                         </>}
                     </> : <>
-                        <div className='backgroud-image'><img src='/images/bg.jpg' alt='anhr bia' /></div>
+                        <div className='backgroud-image'><img src='/images/bg.jpg' alt='anhr bia' fetchpriority="auto" loading="auto" /></div>
                         <div className='avatar-image'>{user.avatar !== null ? <><img src={user.avatar} alt='hinh' /></> : <><h2>avatar</h2></>}</div>
                         <div className='profile-top'><p style={{ fontStyle: 'italic' }}>({user.role})🐼</p><h4>{user.username}</h4></div>
                         <table className='table-infor'>

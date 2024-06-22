@@ -117,14 +117,16 @@ const CreateSpec = () => {
     const createSpec = async (e) => {
         e.preventDefault();
         let total = gradSpec.reduce((total, item) => total + item.percent, 0);
-
+        console.log(gradSpec);
         const hasIdGradZero = gradSpec.some(spec => spec.idGrad === 0);
+        console.log(hasIdGradZero);
         if (
             specification.nameSpec === "" || specification.nameSpec === null ||
-            specification.subjectId === null || specification.subjectId === '' ||
-            (type !== 3 && (file === undefined || file === null)) || hasIdGradZero
+            specification.subjectId === null || specification.subjectId === ''
+            || (type !== 3 && (file === undefined || file === null)) || hasIdGradZero
         ) {
             alert("vui lòng điền đầy đủ");
+            console.log(specification)
         } else if (total !== 100) {
             alert('Vui lòng nhập đúng dữ liệu phần trăm cho mỗi cột điểm!');
         } else {

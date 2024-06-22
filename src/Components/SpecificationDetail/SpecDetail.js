@@ -346,9 +346,9 @@ const SpecDetail = () => {
                     <h6><h5>Tín chỉ: </h5>{spec.credit}</h6>
                     <h6><h5>Môn: </h5>{spec.subject.nameSubject}</h6>
                     <h6><h5>loại đề cương: </h5>{spec.typeofspecifi.nameType}</h6>
-                    <h6><h5>Hội đồng xét duyệt: </h5>10094</h6>
+                    {/* <h6><h5>Hội đồng xét duyệt: </h5>10094</h6>
                     <h6><h5>Chủ tịch: </h5>Nguyễn văn A</h6>
-                    <h6><h5>Thư ký: </h5>Nguyễn văn C</h6>
+                    <h6><h5>Thư ký: </h5>Nguyễn văn C</h6> */}
                     {/* <button onClick={handleExportPDF}>Export to PDF</button> */}
                 </div>
             </div>
