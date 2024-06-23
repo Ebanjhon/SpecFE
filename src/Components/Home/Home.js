@@ -234,13 +234,12 @@ const Home = () => {
                     </>
                 )}
 
-
                 <df-messenger
                     chat-icon="https://res.cloudinary.com/daimrgwuu/image/upload/v1719025996/icon_ai_vj99jf.png"
                     intent="WELCOME"
-                    chat-title="AI_SPEC"
-                    agent-id="c599d7c1-b4b2-4f55-8467-a8f1e36ad465"
-                    language-code="vi"
+                    chat-title="Test"
+                    agent-id="a422c469-2a5c-434d-b109-ff15ec1c2ca6"
+                    language-code="en"
                 ></df-messenger>
 
 
