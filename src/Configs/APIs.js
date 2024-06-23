@@ -1,6 +1,6 @@
 import axios from "axios";
 import cookie from "react-cookies";
-export const BASE_URL = 'http://localhost:8000/QuanLyDeCuong/';
+export const BASE_URL = 'http://localhost:8080/QuanLyDeCuong/';
 export const endpoints = {
     'subjects': '/api/subjects',
     'login': '/api/login/',

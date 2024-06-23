@@ -234,7 +234,7 @@ const Home = () => {
                 <df-messenger
                     chat-icon="https://res.cloudinary.com/daimrgwuu/image/upload/v1719025996/icon_ai_vj99jf.png"
                     intent="WELCOME"
-                    chat-title="Test"
+                    chat-title="OU-AI-CHATBOX"
                     agent-id="a422c469-2a5c-434d-b109-ff15ec1c2ca6"
                     language-code="en"
                 ></df-messenger>
