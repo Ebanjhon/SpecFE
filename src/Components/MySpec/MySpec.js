@@ -120,7 +120,7 @@ const MySpec = () => {
                                     <td className=""> <Button variant="secondary">Dowload</Button>{' '}</td>
                                     {user.role === 'ROLE_TEACHER' &&
                                         <td className="d-flex justify-content-around">
-                                            {/* <Button variant="warning" onClick={() => editSpec(s)}>Edit</Button>{' '} */}
+                                            <Button variant="warning" onClick={() => editSpec(s)}>Edit</Button>{' '}
                                             <Button variant="danger" onClick={() => deleteSpec(s.idSpec)}>Delete</Button>{' '}
                                         </td>
                                     }

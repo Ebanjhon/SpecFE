@@ -24,7 +24,7 @@ export const endpoints = {
     'save-spec': (iduser, idspec) => `/api/buySpec?userId=${iduser}&specId=${idspec}`,
     'get-spec-user-oder': (iduser) => `/api/specifications/getSpecsbyUser/${iduser}`,
     'delete-spec': (idspec) => `/api/specifications/${idspec}`,
-
+    'update-spec': (idspec) => `/api/specifications/update/${idspec}`,
 }
 
 export const authApi = () => {
