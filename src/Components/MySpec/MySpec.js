@@ -1,66 +1,134 @@
-import { useContext, useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import APIs, { endpoints, BASE_URL, authApi } from "../../Configs/APIs";
-import { Button, Form } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
+import { Button, Table } from "react-bootstrap";
 import { UserContext } from "../../Configs/Contexts";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+import './MySpec.css'
 const MySpec = () => {
-    // const [specList, setSpecList] = useState(null);
-    // const [loading, setLoading] = useState(false);
-    // const [nameSpec, setNameSpec] = useState('');
-    // const [credit, setCredit] = useState('');
-    // const [nameTeach, setNameTeach] = useState('');
-    // const [idSub, setIdSub] = useState('');
-    // const navigate = useNavigate();
-    // const [pageSize, setPageSize] = useState(0);
-    // const [supjects, setSupjects] = useState(null);
+    const [user, dispatch] = useContext(UserContext);
+    const [specList, setSpecList] = useState(null);
+    const [alert, setAlert] = useState(false);
+    const navigate = useNavigate();
+    // gọi API lấy dữ liệu
+    const fetchSpec = async () => {
+        let url = `${BASE_URL}api/searchSpecifications/?authorID=${user.idUser}`;
+        try {
+            authApi().get(url).then(response => {
+                setSpecList(response.data);
+            }).catch(error => {
+                if (error.response && error.response.status === 404) {
+                    // setLoading(false);
+                    setSpecList(null);
+                } else {
+                    console.error('An error occurred:', error);
+                }
+            });
+        } catch (error) {
+        }
+    };
+    // get spec user oder
+    const getSpecByUserOder = async () => {
+        try {
+            let response = await authApi().get(endpoints['get-spec-user-oder'](user.idUser));
+            setSpecList(response.data);
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
 
+    useEffect(() => {
+        if (user.role === 'ROLE_TEACHER') {
+            fetchSpec();
+        } else {
+            getSpecByUserOder();
+        }
+    }, [])
+
+
+    // hàm định dạng ngày
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString();
+    };
+
+    // show hàm alert
+    const deleteSpec = (id) => {
+        setAlert(true);
+        setIdDelete(id);
+    };
+
+    const [idDelete, setIdDelete] = useState();
+    const fetDeleteSpec = async () => {
+        try {
+            let response = await authApi().delete(endpoints['delete-spec'](idDelete));
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setAlert(false);
+            fetchSpec();
+        }
+    };
+
+    // đến trang chỉnh sửa
+    const editSpec = (s) => {
+        navigate('/spec-editer', { state: { spec: s } });
+    };
 
     return (
         <div className="mtop d-flex justify-content-center height-min">
-            <div className="container-home">
+            {alert === true && <>
+                <div className="alert-delete">
+                    <div className="box-ask">
+                        <p>Bạn có chắc chắn muốn xóa đề cương này không?</p>
+                        <div className="btn-cancel-ok">
+                            <button className="btn btn-outline-success" onClick={() => setAlert(false)}>Cancel</button>
+                            <button className="btn btn-outline-danger" onClick={fetDeleteSpec}>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </>}
+            <div className="container-home" style={{ width: '86%' }}>
+                <h2>Danh sách các đề cương của bạn</h2>
+                <Table striped bordered hover className="mytable">
+                    <thead>
+                        <tr>
+                            <th>Mã Đề</th>
+                            <th>Họ tên tác giả</th>
+                            <th>Tên đề cương</th>
+                            <th>Môn học</th>
+                            <th>Ngày đăng tải</th>
+                            <th>Tín chỉ</th>
+                            <th>Loại đề</th>
+                            <th>Trạng thái</th>
+                            <th>Xem chi tiết</th>
 
-                {/* hiển thị các danh sách đề cương
-                {loading === true ? (<div className="loader-spec"></div>) : (
-                    <>
-                        {specList === null ? (<>
-                            <div className="d-flex justify-content-center">
-                                <h2 style={{ color: 'gray' }}>Không tìm thấy đề cương nào!</h2>
-                            </div>
-                        </>) : (<>
-                            <div className="spec-container">
-                                {specList.results.map(s => (
-                                    <div className="item-spec">
-                                        <img src={s.author.avatar} />
-                                        <div style={{ width: '20%' }}>
-                                            <h5>{s.author.firstname} {s.author.lastname}</h5>
-                                            <p>{s.author.email}</p>
-                                            <p>Mã GV: {s.author.idUser}</p>
-                                            <p>Username: {s.author.username}</p>
-                                        </div>
-                                        <div style={{ width: '19%' }}>
-                                            <h6>Mã đề cương: {s.idSpec}</h6>
-                                            <h6>Tên Đề cương</h6>
-                                            <p>{s.nameSpec}</p>
-                                            <h6>Môn học</h6>
-                                            <p>{s.subject.nameSubject}</p>
-                                        </div>
-                                        <div style={{ width: '15%' }}>
-                                            <h6>Ngày tạo</h6>
-                                            <p>{formatDate(s.dateCreate)}</p>
-                                            <h6>Đề cương dạng</h6>
-                                            <p>{s.typeofspecifi.nameType}</p>
-                                        </div>
-                                        <Button onClick={() => toSpecDetail(s)}>Xem chi tiết đề cương</Button>
-                                    </div>
-                                ))}
-
-                            </div>
-                        </>)}
-                    </>
-                )} */}
+                            {user.role === 'ROLE_TEACHER' && <th>Chỉnh sửa</th>}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {specList !== null && <>
+                            {specList.results.map(s => (
+                                <tr>
+                                    <td>{s.idSpec}</td>
+                                    <td>{s.author.firstname} {s.author.lastname}</td>
+                                    <td>{s.nameSpec}</td>
+                                    <td>{s.subject.nameSubject}</td>
+                                    <td>{formatDate(s.dateCreate)}</td>
+                                    <td>{s.credit}</td>
+                                    <td>{s.typeofspecifi.nameType}</td>
+                                    <td>{s.status}</td>
+                                    <td className=""> <Button variant="secondary">Dowload</Button>{' '}</td>
+                                    {user.role === 'ROLE_TEACHER' &&
+                                        <td className="d-flex justify-content-around">
+                                            <Button variant="warning" onClick={() => editSpec(s)}>Edit</Button>{' '}
+                                            <Button variant="danger" onClick={() => deleteSpec(s.idSpec)}>Delete</Button>{' '}
+                                        </td>
+                                    }
+                                </tr>
+                            ))}
+                        </>}
+                    </tbody>
+                </Table>
             </div>
         </div>
     )

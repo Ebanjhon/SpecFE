@@ -18,6 +18,9 @@
     font-size: 30px;
 }
 
+#pdf-download {
+    display: none;
+}
 
 .text-infor p,
 .text-infor h5,
